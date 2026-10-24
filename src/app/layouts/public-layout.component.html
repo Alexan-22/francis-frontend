@@ -1,0 +1,20 @@
+<a href="#contenido" class="skip-link">Saltar al contenido principal</a>
+<div class="announcement">FRANCIS COLLECTION <span aria-hidden="true">•</span> Tu estilo, todos los días</div>
+<header class="site-header" (keydown.escape)="menu.set(false)">
+  <div class="container-page header-bar">
+    <button type="button" class="icon-button mobile-toggle" (click)="menu.set(!menu())" [attr.aria-expanded]="menu()" aria-controls="menu-movil" [attr.aria-label]="menu() ? 'Cerrar menú' : 'Abrir menú'">
+      <span aria-hidden="true">{{menu() ? '✕' : '☰'}}</span>
+    </button>
+    <a routerLink="/" class="brand" aria-label="Francis Collection, inicio">FRANCIS<span class="brand-dot">.</span><small>COLLECTION</small></a>
+    <nav class="desktop-nav" aria-label="Navegación principal">
+      <a routerLink="/tienda" [queryParams]="{genero:'HOMBRE'}">Hombre</a>
+      <a routerLink="/tienda" [queryParams]="{genero:'MUJER'}">Mujer</a>
+      <a routerLink="/tienda" [queryParams]="{genero:'NIÑOS'}">Niños</a>
+      <a routerLink="/tienda">Ver todo</a>
+    </nav>
+    <div class="header-actions"><a routerLink="/login" class="header-action account-action" aria-label="Ingresar a mi cuenta">Mi cuenta</a><a routerLink="/carrito" class="header-action cart-action" [attr.aria-label]="'Ver carrito con ' + carrito.cantidad() + ' artículos'">Bolsa <span class="cart-count">{{carrito.cantidad()}}</span></a></div>
+  </div>
+  @if(menu()){<nav id="menu-movil" class="mobile-menu" aria-label="Menú móvil"><div class="container-page mobile-menu-links"><a routerLink="/" (click)="menu.set(false)">Inicio</a><a routerLink="/tienda" (click)="menu.set(false)">Toda la tienda</a><a routerLink="/tienda" [queryParams]="{genero:'HOMBRE'}" (click)="menu.set(false)">Hombre</a><a routerLink="/tienda" [queryParams]="{genero:'MUJER'}" (click)="menu.set(false)">Mujer</a><a routerLink="/tienda" [queryParams]="{genero:'NIÑOS'}" (click)="menu.set(false)">Niños</a><a routerLink="/login" (click)="menu.set(false)">Mi cuenta</a></div></nav>}
+</header>
+<main id="contenido" class="site-main"><router-outlet /></main>
+<footer class="site-footer"><div class="container-page footer-grid"><div><a routerLink="/" class="footer-brand">FRANCIS<span>.</span></a><p class="footer-copy">Prendas para expresar tu estilo. Explora la colección disponible en nuestra tienda.</p></div><div><h2>Explorar</h2><a routerLink="/tienda">Colección completa</a><a routerLink="/tienda" [queryParams]="{genero:'MUJER'}">Mujer</a><a routerLink="/tienda" [queryParams]="{genero:'HOMBRE'}">Hombre</a><a routerLink="/tienda" [queryParams]="{genero:'NIÑOS'}">Niños</a></div><div><h2>Tu cuenta</h2><a routerLink="/login">Iniciar sesión</a><a routerLink="/registro">Registrarse</a><a routerLink="/carrito">Ver carrito</a><a routerLink="/mis-compras">Mis compras</a></div><div><h2>Información</h2><p>Los precios, existencias, medios de pago y condiciones de entrega se confirman durante el proceso de compra.</p></div></div><div class="container-page footer-bottom"><span>© Francis Collection</span><span>Hecho para todos los estilos</span></div></footer>

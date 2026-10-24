@@ -1,0 +1,276 @@
+
+<!-- ICONOS SVG REUTILIZABLES -->
+<svg
+  class="fc-svg-defs"
+  aria-hidden="true"
+  xmlns="http://www.w3.org/2000/svg">
+
+  <symbol id="fc-dashboard" viewBox="0 0 24 24">
+    <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+    <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+    <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+    <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+  </symbol>
+
+  <symbol id="fc-home" viewBox="0 0 24 24">
+    <path d="m3 10 9-7 9 7v10H3z"/>
+    <path d="M9 20v-7h6v7"/>
+  </symbol>
+
+  <symbol id="fc-box" viewBox="0 0 24 24">
+    <path d="m3 7 9-4 9 4v10l-9 4-9-4z"/>
+    <path d="m3 7 9 4 9-4M12 11v10"/>
+  </symbol>
+
+  <symbol id="fc-plus" viewBox="0 0 24 24">
+    <path d="M12 5v14M5 12h14"/>
+  </symbol>
+
+  <symbol id="fc-layers" viewBox="0 0 24 24">
+    <path d="m12 3 9 5-9 5-9-5z"/>
+    <path d="m3 12 9 5 9-5M3 16l9 5 9-5"/>
+  </symbol>
+
+  <symbol id="fc-shopping" viewBox="0 0 24 24">
+    <path d="M3 4h2l3 12h12l2-9H6"/>
+    <circle cx="9" cy="20" r="1"/>
+    <circle cx="19" cy="20" r="1"/>
+  </symbol>
+
+  <symbol id="fc-receipt" viewBox="0 0 24 24">
+    <path d="M5 3h14v18l-3-2-4 2-4-2-3 2z"/>
+    <path d="M9 8h6M9 12h6M9 16h3"/>
+  </symbol>
+
+  <symbol id="fc-users" viewBox="0 0 24 24">
+    <circle cx="9" cy="8" r="3"/>
+    <path d="M3 20v-2a6 6 0 0 1 12 0v2"/>
+    <path d="M17 5a3 3 0 0 1 0 6"/>
+    <path d="M17 14a5 5 0 0 1 4 5v1"/>
+  </symbol>
+
+  <symbol id="fc-chart" viewBox="0 0 24 24">
+    <path d="M4 20V4M4 20h17"/>
+    <path d="M8 16v-4M13 16V8M18 16V5"/>
+  </symbol>
+
+  <symbol id="fc-menu" viewBox="0 0 24 24">
+    <path d="M4 6h16M4 12h16M4 18h16"/>
+  </symbol>
+
+  <symbol id="fc-close" viewBox="0 0 24 24">
+    <path d="M5 5l14 14M19 5 5 19"/>
+  </symbol>
+
+  <symbol id="fc-arrow" viewBox="0 0 24 24">
+    <path d="M5 12h14m-6-6 6 6-6 6"/>
+  </symbol>
+
+  <symbol id="fc-logout" viewBox="0 0 24 24">
+    <path d="M9 4H5v16h4"/>
+    <path d="M13 7l5 5-5 5M18 12H9"/>
+  </symbol>
+
+</svg>
+
+<a class="fc-skip-link" href="#admin-contenido">
+  Saltar al contenido
+</a>
+
+<div class="fc-admin">
+
+  <!-- FONDO DEL MENÚ MÓVIL -->
+  @if (menuAbierto()) {
+    <button
+      class="fc-menu-overlay"
+      type="button"
+      aria-label="Cerrar menú administrativo"
+      (click)="cerrarMenu()">
+    </button>
+  }
+
+  <!-- SIDEBAR -->
+  <aside
+    id="admin-sidebar"
+    class="fc-sidebar"
+    [class.fc-sidebar--open]="menuAbierto()"
+    aria-label="Navegación administrativa">
+
+    <div class="fc-sidebar-brand">
+
+      <a
+        routerLink="/admin"
+        class="fc-brand"
+        (click)="cerrarMenu(false)">
+
+        <span class="fc-brand-name">
+          FRANCIS<span class="fc-brand-dot">.</span>
+        </span>
+
+        <span class="fc-brand-caption">
+          COLLECTION / ADMIN
+        </span>
+
+      </a>
+
+      <button
+        #botonCerrar
+        type="button"
+        class="fc-sidebar-close"
+        aria-label="Cerrar menú"
+        (click)="cerrarMenu()">
+
+        <svg class="fc-icon">
+          <use href="#fc-close"></use>
+        </svg>
+
+      </button>
+    </div>
+
+    <div class="fc-sidebar-scroll">
+
+      @for (grupo of grupos; track grupo.titulo) {
+
+        <div class="fc-nav-group">
+
+          <p class="fc-nav-heading">
+            {{ grupo.titulo }}
+          </p>
+
+          <nav [attr.aria-label]="grupo.titulo">
+
+            @for (item of grupo.items; track item.ruta) {
+
+              <a
+                class="fc-nav-link"
+                [routerLink]="item.ruta"
+                routerLinkActive="fc-nav-link--active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                ariaCurrentWhenActive="page"
+                (click)="cerrarMenu(false)">
+
+                <svg class="fc-icon" aria-hidden="true">
+                  <use
+                    [attr.href]="'#fc-' + item.icono">
+                  </use>
+                </svg>
+
+                <span>{{ item.texto }}</span>
+
+              </a>
+
+            }
+
+          </nav>
+        </div>
+
+      }
+
+    </div>
+
+    <!-- PIE DEL SIDEBAR -->
+    <div class="fc-sidebar-bottom">
+
+      <a
+        routerLink="/tienda"
+        class="fc-sidebar-action">
+
+        <svg class="fc-icon" aria-hidden="true">
+          <use href="#fc-home"></use>
+        </svg>
+
+        Ver tienda
+      </a>
+
+      <button
+        type="button"
+        class="fc-sidebar-action fc-logout"
+        (click)="cerrarSesion()">
+
+        <svg class="fc-icon" aria-hidden="true">
+          <use href="#fc-logout"></use>
+        </svg>
+
+        Cerrar sesión
+      </button>
+
+    </div>
+
+  </aside>
+
+  <!-- ZONA PRINCIPAL -->
+  <div class="fc-main">
+
+    <header class="fc-topbar">
+
+      <div class="fc-topbar-start">
+
+        <button
+          #botonMenu
+          type="button"
+          class="fc-menu-button"
+          aria-label="Abrir menú administrativo"
+          aria-controls="admin-sidebar"
+          [attr.aria-expanded]="menuAbierto()"
+          (click)="abrirMenu()">
+
+          <svg class="fc-icon">
+            <use href="#fc-menu"></use>
+          </svg>
+
+        </button>
+
+        <div class="fc-topbar-titles">
+
+          <span class="fc-topbar-caption">
+            FRANCIS COLLECTION
+          </span>
+
+          <strong>{{ tituloActual() }}</strong>
+
+        </div>
+
+      </div>
+
+      <div class="fc-topbar-end">
+
+        <a routerLink="/tienda" class="fc-store-link">
+          <span>Ver tienda</span>
+          <svg class="fc-icon" aria-hidden="true">
+            <use href="#fc-arrow"></use>
+          </svg>
+        </a>
+
+        <div class="fc-user-info">
+
+          <div class="fc-user-text">
+            <span class="fc-user-role">
+              ADMINISTRADOR
+            </span>
+            <strong>{{ correoAdministrador }}</strong>
+          </div>
+
+          <div class="fc-avatar" aria-hidden="true">
+            {{ inicialAdministrador }}
+          </div>
+
+        </div>
+
+      </div>
+
+    </header>
+
+    <!-- PÁGINAS ADMINISTRATIVAS -->
+    <main
+      #contenidoPrincipal
+      id="admin-contenido"
+      class="fc-content"
+      tabindex="-1">
+
+      <router-outlet />
+
+    </main>
+
+  </div>
+
+</div>

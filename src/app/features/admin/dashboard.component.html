@@ -1,0 +1,243 @@
+
+<section
+  class="fc-dashboard"
+  aria-labelledby="dashboard-title">
+
+  <!-- ENCABEZADO -->
+  <div class="fc-dashboard-heading">
+
+    <div>
+
+      <p class="fc-eyebrow">
+        PANEL ADMINISTRATIVO
+      </p>
+
+      <h1 id="dashboard-title">
+        Dashboard<span>.</span>
+      </h1>
+
+      <p class="fc-dashboard-description">
+        Gestiona tu tienda Francis Collection
+        desde un solo lugar.
+      </p>
+
+    </div>
+
+    <a
+      routerLink="/admin/vender"
+      class="fc-primary-button">
+
+      <svg class="fc-icon" aria-hidden="true">
+        <use href="#fc-plus"></use>
+      </svg>
+
+      Nueva venta
+
+    </a>
+
+  </div>
+
+  <!-- ESTADÍSTICAS -->
+  <div class="fc-dashboard-section-heading">
+
+    <div>
+      <span class="fc-section-caption">
+        VISTA GENERAL
+      </span>
+      <h2>Resumen de la tienda</h2>
+    </div>
+
+    <span class="fc-data-state">
+      Datos pendientes de conexión
+    </span>
+
+  </div>
+
+  <div class="fc-stats-grid">
+
+    @for (indicador of indicadores; track indicador.titulo) {
+
+      <article class="fc-stat-card">
+
+        <div class="fc-stat-top">
+
+          <span class="fc-stat-label">
+            {{ indicador.titulo }}
+          </span>
+
+          <div class="fc-stat-icon">
+            <svg class="fc-icon" aria-hidden="true">
+              <use
+                [attr.href]="'#fc-' + indicador.icono">
+              </use>
+            </svg>
+          </div>
+
+        </div>
+
+        <strong class="fc-stat-value">
+          {{ indicador.valor }}
+        </strong>
+
+        <div class="fc-stat-bottom">
+
+          <span>{{ indicador.descripcion }}</span>
+
+          <span class="fc-stat-status">
+            Sin datos
+          </span>
+
+        </div>
+
+      </article>
+
+    }
+
+  </div>
+
+  <!-- ÁREA DE TRABAJO -->
+  <div class="fc-workspace">
+
+    <!-- ACCESOS RÁPIDOS -->
+    <section
+      class="fc-workspace-panel"
+      aria-labelledby="accesos-title">
+
+      <div class="fc-panel-heading">
+
+        <div>
+          <p class="fc-section-caption">
+            ESPACIO DE TRABAJO
+          </p>
+
+          <h2 id="accesos-title">
+            Accesos rápidos
+          </h2>
+        </div>
+
+      </div>
+
+      <div class="fc-quick-grid">
+
+        @for (acceso of accesos; track acceso.ruta) {
+
+          <a
+            class="fc-quick-card"
+            [routerLink]="acceso.ruta">
+
+            <div class="fc-quick-top">
+
+              <span>
+                {{ acceso.numero }}
+              </span>
+
+              <svg
+                class="fc-icon fc-quick-icon"
+                aria-hidden="true">
+
+                <use
+                  [attr.href]="'#fc-' + acceso.icono">
+                </use>
+
+              </svg>
+
+            </div>
+
+            <div class="fc-quick-body">
+
+              <strong>
+                {{ acceso.titulo }}
+              </strong>
+
+              <p>
+                {{ acceso.descripcion }}
+              </p>
+
+            </div>
+
+            <span class="fc-quick-arrow" aria-hidden="true">
+              ↗
+            </span>
+
+          </a>
+
+        }
+
+      </div>
+
+    </section>
+
+    <!-- ACTIVIDAD RECIENTE -->
+    <aside class="fc-activity-panel">
+
+      <div class="fc-panel-heading">
+
+        <div>
+          <p class="fc-section-caption">
+            MOVIMIENTO
+          </p>
+
+          <h2>Actividad reciente</h2>
+        </div>
+
+      </div>
+
+      <div class="fc-activity-empty">
+
+        <div class="fc-activity-icon">
+
+          <svg class="fc-icon" aria-hidden="true">
+            <use href="#fc-receipt"></use>
+          </svg>
+
+        </div>
+
+        <strong>
+          Actividad no disponible
+        </strong>
+
+        <p>
+          Las ventas y movimientos recientes
+          aparecerán aquí cuando se conecte
+          el servicio correspondiente del backend.
+        </p>
+
+      </div>
+
+      <a
+        routerLink="/admin/ventas"
+        class="fc-activity-link">
+
+        Ir a ventas
+
+        <svg class="fc-icon" aria-hidden="true">
+          <use href="#fc-arrow"></use>
+        </svg>
+
+      </a>
+
+    </aside>
+
+  </div>
+
+  <!-- INFORMACIÓN DE INTEGRACIÓN -->
+  <div class="fc-dashboard-notice" role="note">
+
+    <div class="fc-notice-mark">
+      i
+    </div>
+
+    <div>
+      <strong>Integración con microservicios</strong>
+
+      <p>
+        El diseño administrativo está preparado.
+        Las estadísticas se mostrarán después de
+        verificar los endpoints, permisos y respuestas
+        reales del API Gateway.
+      </p>
+    </div>
+
+  </div>
+
+</section>

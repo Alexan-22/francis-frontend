@@ -1,0 +1,59 @@
+node_modules/
+dist/
+.angular/
+.env
+*.log
+
+# Angular
+/node_modules/
+/dist/
+/.angular/
+/coverage/
+
+# Variables de entorno y secretos
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+
+# VS Code e IntelliJ
+.vscode/
+.idea/
+*.iml
+
+# Respaldos y archivos temporales
+*.bak
+*.backup
+*.log
+revision-*.txt
+paso-*.ps1
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Angular
+/node_modules/
+/dist/
+/.angular/
+/coverage/
+
+# Configuraciones privadas
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Archivos temporales
+*.bak
+*.backup
+*.log
+revision-*.txt
+paso-*.ps1
+
+# IDE
+.idea/
+.vscode/
