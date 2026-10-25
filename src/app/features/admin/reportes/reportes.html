@@ -1,11 +1,197 @@
-<section class="modulo-admin" aria-labelledby="titulo-modulo">
-  <p class="etiqueta">FRANCIS COLLECTION / ADMINISTRACIÓN</p>
-  <h1 id="titulo-modulo">Reportes</h1>
-  <p class="intro">Indicadores comerciales reales</p>
-  <div class="panel-informativo" role="status">
-    <h2>Integración pendiente de validar</h2>
-    <p>Esta sección ya tiene una pantalla responsive. Para mostrar datos o ejecutar acciones, primero verificaremos los DTO, métodos, permisos y respuestas reales del API Gateway.</p>
-    <p class="endpoint">No se ha confirmado todavía un endpoint para esta operación.</p>
-    <a routerLink="/admin">Volver al panel</a>
-  </div>
+
+<!-- =====================================================
+     FRANCIS COLLECTION
+     REPORTES ADMINISTRATIVOS
+===================================================== -->
+
+<section
+  class="modulo-admin"
+  aria-labelledby="titulo-modulo"
+>
+
+  <!-- ENCABEZADO -->
+
+  <header class="modulo-encabezado">
+
+    <p class="etiqueta">
+      FRANCIS COLLECTION / ADMINISTRACIÓN
+    </p>
+
+    <h1 id="titulo-modulo">
+      Reportes
+    </h1>
+
+    <p class="intro">
+      Consulta indicadores comerciales,
+      movimientos de inventario y resultados
+      de las operaciones de tu tienda.
+    </p>
+
+  </header>
+
+  <!-- PANEL INFORMATIVO -->
+
+  <section
+    class="panel-informativo"
+    aria-labelledby="integracion-titulo"
+  >
+
+    <div
+      class="panel-icono"
+      aria-hidden="true"
+    >
+      i
+    </div>
+
+    <h2 id="integracion-titulo">
+      Integración de reportes pendiente
+    </h2>
+
+    <p>
+      La pantalla administrativa está preparada,
+      pero todavía debemos verificar los endpoints,
+      filtros, permisos y modelos de respuesta
+      necesarios para consultar información real
+      de Francis Collection.
+    </p>
+
+    <p>
+      Los indicadores se obtendrán de los registros
+      almacenados por los microservicios.
+      No utilizaremos cifras inventadas.
+    </p>
+
+    <!-- TIPOS DE REPORTES -->
+
+    <h3>
+      Reportes previstos
+    </h3>
+
+    <div class="reportes-grid">
+
+      <article class="reporte-card">
+
+        <h4>
+          Ventas
+        </h4>
+
+        <p>
+          Consultar operaciones registradas,
+          importes y periodos de venta.
+        </p>
+
+      </article>
+
+      <article class="reporte-card">
+
+        <h4>
+          Caja
+        </h4>
+
+        <p>
+          Revisar movimientos y resultados
+          de caja, si están disponibles.
+        </p>
+
+      </article>
+
+      <article class="reporte-card">
+
+        <h4>
+          Inventario
+        </h4>
+
+        <p>
+          Consultar existencias,
+          reposiciones y movimientos.
+        </p>
+
+      </article>
+
+      <article class="reporte-card">
+
+        <h4>
+          Pagos
+        </h4>
+
+        <p>
+          Analizar pagos registrados y sus
+          estados de procesamiento.
+        </p>
+
+      </article>
+
+      <article class="reporte-card">
+
+        <h4>
+          Devoluciones
+        </h4>
+
+        <p>
+          Consultar devoluciones,
+          reintegros y operaciones relacionadas.
+        </p>
+
+      </article>
+
+    </div>
+
+    <!-- ESTADO DE INTEGRACIÓN -->
+
+    <div class="endpoint">
+
+      <strong>
+        Integración con API Gateway
+      </strong>
+
+      <p>
+        Endpoints administrativos de reportes:
+        pendientes de verificar.
+      </p>
+
+      <p>
+        También debemos confirmar los permisos,
+        filtros por fecha y formatos de respuesta.
+      </p>
+
+    </div>
+
+    <!-- AVISO -->
+
+    <p class="advertencia">
+      Los reportes todavía no están disponibles.
+      Esta pantalla no calcula indicadores,
+      modifica registros ni genera exportaciones.
+    </p>
+
+    <!-- NAVEGACIÓN -->
+
+    <div class="acciones">
+
+      <a
+        routerLink="/admin/ventas"
+        class="boton-principal"
+      >
+        Ir a ventas
+      </a>
+
+      <a
+        routerLink="/admin/stock"
+        class="boton-secundario"
+      >
+        Consultar inventario
+      </a>
+
+      <a
+        routerLink="/admin"
+        class="boton-secundario"
+      >
+        Volver al dashboard
+      </a>
+
+    </div>
+
+  </section>
+
 </section>
+

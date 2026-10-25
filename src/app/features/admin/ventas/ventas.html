@@ -1,11 +1,144 @@
-<section class="modulo-admin" aria-labelledby="titulo-modulo">
-  <p class="etiqueta">FRANCIS COLLECTION / ADMINISTRACIÓN</p>
-  <h1 id="titulo-modulo">Ventas y pedidos</h1>
-  <p class="intro">Consulta de ventas registradas</p>
-  <div class="panel-informativo" role="status">
-    <h2>Integración pendiente de validar</h2>
-    <p>Esta sección ya tiene una pantalla responsive. Para mostrar datos o ejecutar acciones, primero verificaremos los DTO, métodos, permisos y respuestas reales del API Gateway.</p>
-    <p class="endpoint">Ruta prevista: /api/ventas</p>
-    <a routerLink="/admin">Volver al panel</a>
-  </div>
+
+<!-- =====================================================
+     FRANCIS COLLECTION
+     ADMINISTRACIÓN DE VENTAS Y PEDIDOS
+===================================================== -->
+
+<section
+  class="modulo-admin"
+  aria-labelledby="titulo-modulo"
+>
+
+  <!-- ENCABEZADO -->
+
+  <header class="modulo-encabezado">
+
+    <p class="etiqueta">
+      FRANCIS COLLECTION / NEGOCIO
+    </p>
+
+    <h1 id="titulo-modulo">
+      Ventas y pedidos
+    </h1>
+
+    <p class="intro">
+      Consulta las ventas registradas y realiza
+      el seguimiento de los pedidos de tu tienda.
+    </p>
+
+  </header>
+
+  <!-- PANEL DE INTEGRACIÓN -->
+
+  <section
+    class="panel-informativo"
+    aria-labelledby="integracion-titulo"
+  >
+
+    <div
+      class="panel-icono"
+      aria-hidden="true"
+    >
+      !
+    </div>
+
+    <h2 id="integracion-titulo">
+      Consulta de ventas pendiente de integración
+    </h2>
+
+    <p>
+      La pantalla administrativa está preparada,
+      pero todavía debemos verificar los endpoints,
+      modelos de datos y permisos para consultar
+      las ventas reales de Francis Collection.
+    </p>
+
+    <p>
+      Cuando confirmemos el contrato de
+      comercio-service, podremos mostrar
+      los pedidos almacenados en PostgreSQL
+      y sus estados correspondientes.
+    </p>
+
+    <!-- FUNCIONALIDADES FUTURAS -->
+
+    <h3>
+      Funcionalidades por integrar
+    </h3>
+
+    <ul class="lista-funciones">
+
+      <li>
+        Consultar ventas y pedidos registrados.
+      </li>
+
+      <li>
+        Filtrar por fecha, cliente y estado.
+      </li>
+
+      <li>
+        Consultar productos, tallas, cantidades
+        e importes de cada venta.
+      </li>
+
+      <li>
+        Revisar pagos y comprobantes,
+        según las operaciones disponibles.
+      </li>
+
+      <li>
+        Gestionar cancelaciones y devoluciones
+        mediante operaciones autorizadas.
+      </li>
+
+    </ul>
+
+    <!-- INFORMACIÓN DEL BACKEND -->
+
+    <div class="endpoint">
+
+      <strong>
+        Integración con API Gateway
+      </strong>
+
+      <p>
+        Ruta prevista: /api/ventas
+      </p>
+
+      <p>
+        Endpoint, métodos HTTP, DTO y permisos:
+        pendientes de verificar.
+      </p>
+
+    </div>
+
+    <!-- AVISO -->
+
+    <p class="advertencia">
+      Esta pantalla no registra ventas,
+      no modifica pedidos y no procesa pagos.
+    </p>
+
+    <!-- ACCIONES -->
+
+    <div class="acciones">
+
+      <a
+        routerLink="/admin/vender"
+        class="boton-principal"
+      >
+        Ir al punto de venta
+      </a>
+
+      <a
+        routerLink="/admin"
+        class="boton-secundario"
+      >
+        Volver al dashboard
+      </a>
+
+    </div>
+
+  </section>
+
 </section>

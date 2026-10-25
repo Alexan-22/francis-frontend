@@ -547,3 +547,65 @@
     transition: none;
   }
 }
+
+/* =====================================================
+   FRANCIS COLLECTION - MEJORAS DEL DASHBOARD
+===================================================== */
+
+/* Navegación accesible mediante teclado */
+
+.fc-primary-button:focus-visible,
+.fc-quick-card:focus-visible,
+.fc-activity-link:focus-visible {
+  outline: 3px solid #967250;
+  outline-offset: 3px;
+}
+
+/* Evitar desbordamientos en tarjetas */
+
+.fc-stat-card,
+.fc-quick-card {
+  min-width: 0;
+}
+
+.fc-stat-label,
+.fc-stat-bottom,
+.fc-quick-body {
+  overflow-wrap: anywhere;
+}
+
+/* Contraste de textos secundarios */
+
+.fc-eyebrow,
+.fc-section-caption {
+  color: #62686c;
+}
+
+.fc-dashboard-description {
+  color: #62686c;
+}
+
+.fc-quick-body p {
+  color: #62686c;
+}
+
+.fc-stat-bottom {
+  color: #62686c;
+}
+
+/* Mejor adaptación a celulares estrechos */
+
+@media (max-width: 380px) {
+  .fc-stats-grid,
+  .fc-quick-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .fc-stat-card {
+    min-height: 145px;
+  }
+
+  .fc-quick-card {
+    min-height: 135px;
+  }
+}

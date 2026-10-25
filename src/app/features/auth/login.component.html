@@ -1,2 +1,148 @@
-<section class="container-page max-w-xl py-14"><h1 class="section-title">Iniciar sesión</h1><p class="mt-4 text-stone-600">Inicia sesión para ver tus pedidos o acceder a la administración.</p>
-<form class="mt-8 space-y-5" [formGroup]="formulario" (ngSubmit)="ingresar()"><div><label for="correo" class="mb-2 block">Correo electrónico</label><input id="correo" type="email" class="field" autocomplete="username" formControlName="correo"></div><div><label for="clave" class="mb-2 block">Contraseña</label><input id="clave" type="password" class="field" autocomplete="current-password" formControlName="clave"></div><button class="btn w-full" [disabled]="formulario.invalid||cargando()">{{cargando()?'Ingresando...':'Ingresar'}}</button><p role="alert">{{error()}}</p></form><p class="mt-6">¿No tienes cuenta? <a routerLink="/registro" class="underline">Regístrate</a></p></section>
+<section class="container-page max-w-xl py-14">
+
+  <!-- TÍTULO -->
+  <header>
+    <h1 class="section-title">
+      Iniciar sesión
+    </h1>
+
+    <p class="mt-4 text-stone-600">
+      Inicia sesión para consultar tus pedidos
+      o acceder al panel de administración.
+    </p>
+  </header>
+
+  <!-- FORMULARIO -->
+  <form
+    class="mt-8 space-y-5"
+    [formGroup]="formulario"
+    (ngSubmit)="ingresar()"
+    novalidate
+  >
+
+    <!-- CORREO ELECTRÓNICO -->
+    <div>
+
+      <label
+        for="correo"
+        class="mb-2 block"
+      >
+        Correo electrónico
+      </label>
+
+      <input
+        id="correo"
+        name="email"
+        type="email"
+        class="field"
+        placeholder="correo@ejemplo.com"
+        autocomplete="username"
+        formControlName="correo"
+        required
+        [attr.aria-invalid]="
+          formulario.controls.correo.invalid &&
+          formulario.controls.correo.touched
+        "
+      />
+
+      @if (
+        formulario.controls.correo.touched &&
+        formulario.controls.correo.hasError('required')
+      ) {
+        <p class="mt-2 text-sm text-red-600">
+          Ingresa tu correo electrónico.
+        </p>
+      }
+
+      @if (
+        formulario.controls.correo.touched &&
+        formulario.controls.correo.hasError('email')
+      ) {
+        <p class="mt-2 text-sm text-red-600">
+          Ingresa un correo electrónico válido.
+        </p>
+      }
+
+    </div>
+
+    <!-- CONTRASEÑA -->
+    <div>
+
+      <label
+        for="clave"
+        class="mb-2 block"
+      >
+        Contraseña
+      </label>
+
+      <input
+        id="clave"
+        name="password"
+        type="password"
+        class="field"
+        placeholder="Ingresa tu contraseña"
+        autocomplete="current-password"
+        formControlName="clave"
+        required
+        [attr.aria-invalid]="
+          formulario.controls.clave.invalid &&
+          formulario.controls.clave.touched
+        "
+      />
+
+      @if (
+        formulario.controls.clave.touched &&
+        formulario.controls.clave.hasError('required')
+      ) {
+        <p class="mt-2 text-sm text-red-600">
+          Ingresa tu contraseña.
+        </p>
+      }
+
+    </div>
+
+    <!-- ERROR DEVUELTO POR EL SERVIDOR -->
+    @if (error()) {
+
+      <div
+        role="alert"
+        class="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700"
+      >
+        {{ error() }}
+      </div>
+
+    }
+
+    <!-- BOTÓN DE INICIO DE SESIÓN -->
+    <button
+      type="submit"
+      class="btn w-full"
+      [disabled]="formulario.invalid || cargando()"
+      [attr.aria-busy]="cargando()"
+    >
+
+      @if (cargando()) {
+        Ingresando...
+      } @else {
+        Ingresar
+      }
+
+    </button>
+
+  </form>
+
+  <!-- REGISTRO -->
+  <p class="mt-6 text-center text-stone-600">
+
+    ¿No tienes una cuenta?
+
+    <a
+      routerLink="/registro"
+      class="font-medium underline underline-offset-4"
+    >
+      Regístrate
+    </a>
+
+  </p>
+
+</section>

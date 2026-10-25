@@ -1,6 +1,9 @@
-
 import { Routes } from '@angular/router';
-import { authGuard, adminGuard } from './core/guards/auth.guard';
+
+import {
+  authGuard,
+  adminGuard
+} from './core/guards/auth.guard';
 
 export const routes: Routes = [
 
@@ -10,6 +13,7 @@ export const routes: Routes = [
 
   {
     path: 'admin',
+
     canActivate: [authGuard, adminGuard],
     canActivateChild: [authGuard, adminGuard],
 
@@ -19,28 +23,32 @@ export const routes: Routes = [
 
     children: [
 
-      // Dashboard
+      // Dashboard principal
       {
         path: '',
+        pathMatch: 'full',
         title: 'Administración | Francis Collection',
+
         loadComponent: () =>
           import('./features/admin/dashboard.component')
             .then(m => m.DashboardComponent)
       },
 
-      // Punto de venta POS
+      // Punto de venta (POS)
       {
         path: 'vender',
-        title: 'POS | Francis Collection',
+        title: 'Punto de venta | Francis Collection',
+
         loadComponent: () =>
           import('./features/admin/pos.component')
             .then(m => m.PosComponent)
       },
 
-      // Productos
+      // Administración de productos
       {
         path: 'productos',
         title: 'Productos | Francis Collection',
+
         loadComponent: () =>
           import('./features/admin/productos/productos')
             .then(m => m.ProductosComponent)
@@ -50,6 +58,7 @@ export const routes: Routes = [
       {
         path: 'stock',
         title: 'Inventario y stock | Francis Collection',
+
         loadComponent: () =>
           import('./features/admin/stock/stock')
             .then(m => m.StockComponent)
@@ -59,24 +68,27 @@ export const routes: Routes = [
       {
         path: 'ventas',
         title: 'Ventas y pedidos | Francis Collection',
+
         loadComponent: () =>
           import('./features/admin/ventas/ventas')
             .then(m => m.VentasComponent)
       },
 
-      // Usuarios
+      // Administración de usuarios
       {
         path: 'usuarios',
         title: 'Usuarios | Francis Collection',
+
         loadComponent: () =>
           import('./features/admin/usuarios/usuarios')
             .then(m => m.UsuariosComponent)
       },
 
-      // Reportes
+      // Reportes administrativos
       {
         path: 'reportes',
         title: 'Reportes | Francis Collection',
+
         loadComponent: () =>
           import('./features/admin/reportes/reportes')
             .then(m => m.ReportesComponent)
@@ -86,6 +98,7 @@ export const routes: Routes = [
       {
         path: 'home-admin',
         title: 'Banners y colecciones | Francis Collection',
+
         loadComponent: () =>
           import('./features/admin/home-admin/home-admin')
             .then(m => m.HomeAdminComponent)
@@ -95,6 +108,7 @@ export const routes: Routes = [
       {
         path: 'producto-form',
         title: 'Formulario de productos | Francis Collection',
+
         loadComponent: () =>
           import('./features/admin/producto-form/producto-form')
             .then(m => m.ProductoFormComponent)
@@ -104,9 +118,17 @@ export const routes: Routes = [
       {
         path: 'clientes-presenciales',
         title: 'Clientes presenciales | Francis Collection',
+
         loadComponent: () =>
-          import('./features/admin/clientes-presenciales/clientes-presenciales')
-            .then(m => m.ClientesPresencialesComponent)
+          import(
+            './features/admin/clientes-presenciales/clientes-presenciales'
+          ).then(m => m.ClientesPresencialesComponent)
+      },
+
+      // Ruta administrativa desconocida
+      {
+        path: '**',
+        redirectTo: '/admin'
       }
 
     ]
@@ -128,16 +150,19 @@ export const routes: Routes = [
       // Página de inicio
       {
         path: '',
+        pathMatch: 'full',
         title: 'Inicio | Francis Collection',
+
         loadComponent: () =>
           import('./features/home/home.component')
             .then(m => m.HomeComponent)
       },
 
-      // Catálogo de productos
+      // Catálogo
       {
         path: 'tienda',
         title: 'Tienda | Francis Collection',
+
         loadComponent: () =>
           import('./features/catalogo/catalogo.component')
             .then(m => m.CatalogoComponent)
@@ -147,6 +172,7 @@ export const routes: Routes = [
       {
         path: 'producto/:id',
         title: 'Detalle de producto | Francis Collection',
+
         loadComponent: () =>
           import('./features/producto/producto.component')
             .then(m => m.ProductoComponent)
@@ -155,7 +181,8 @@ export const routes: Routes = [
       // Carrito de compras
       {
         path: 'carrito',
-        title: 'Carrito | Francis Collection',
+        title: 'Carrito de compras | Francis Collection',
+
         loadComponent: () =>
           import('./features/carrito/carrito.component')
             .then(m => m.CarritoComponent)
@@ -165,6 +192,7 @@ export const routes: Routes = [
       {
         path: 'login',
         title: 'Iniciar sesión | Francis Collection',
+
         loadComponent: () =>
           import('./features/auth/login.component')
             .then(m => m.LoginComponent)
@@ -173,51 +201,58 @@ export const routes: Routes = [
       // Registro de clientes
       {
         path: 'registro',
-        title: 'Registro | Francis Collection',
+        title: 'Registrarse | Francis Collection',
+
         loadComponent: () =>
           import('./features/auth/registro.component')
             .then(m => m.RegistroComponent)
       },
 
-      // Checkout
+      // Checkout protegido
       {
         path: 'checkout',
+
         canActivate: [authGuard],
-        title: 'Compra | Francis Collection',
+
+        title: 'Finalizar compra | Francis Collection',
+
         loadComponent: () =>
           import('./features/checkout/checkout.component')
             .then(m => m.CheckoutComponent)
       },
 
-      // Historial de compras
+      // Historial de compras protegido
       {
         path: 'mis-compras',
+
         canActivate: [authGuard],
+
         title: 'Mis compras | Francis Collection',
+
         loadComponent: () =>
           import('./features/compras/compras.component')
             .then(m => m.ComprasComponent)
       },
 
-      // Redirección de detalle de compra
+      // Redirección temporal de detalle de compra
       {
         path: 'mis-compras/:id',
-        canActivate: [authGuard],
-        redirectTo: 'mis-compras',
-        pathMatch: 'full'
+        pathMatch: 'full',
+        redirectTo: '/mis-compras'
       },
 
-      // Redirección de compra exitosa
+      // Redirección temporal de compra exitosa
       {
         path: 'compra-exitosa',
-        canActivate: [authGuard],
-        redirectTo: 'mis-compras',
-        pathMatch: 'full'
+        pathMatch: 'full',
+        redirectTo: '/mis-compras'
       },
 
-      // Página no encontrada (404)
+      // Página no encontrada
       {
         path: '**',
+        title: 'Página no encontrada | Francis Collection',
+
         loadComponent: () =>
           import('./features/home/not-found.component')
             .then(m => m.NotFoundComponent)

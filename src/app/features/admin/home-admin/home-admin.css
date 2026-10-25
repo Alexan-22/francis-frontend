@@ -3,8 +3,261 @@
 h1 {font-size:clamp(2rem,5vw,3.5rem);line-height:1.08;font-weight:750; margin:1rem 0;}
 .intro {color:#68645f; margin-bottom:2rem;}
 .panel-informativo {border:1px solid #dedbd5;background:#fff; padding:clamp(1rem,4vw,2.25rem); border-radius:6px;}
-h2 {font-weight:750;font-size:1.22rem;margin-bottom:.5rem;}
-.panel-informativo p {color:#625d56;line-height:1.6;margin-bottom:1rem;}
-.endpoint {font-family:ui-monospace,monospace;font-size:.83rem;overflow-wrap:anywhere;}
-a {display:inline-block;background:#24211d;color:#fff;padding:.78rem 1.2rem;border-radius:3px;}
-a:focus-visible {outline:3px solid #a67250;outline-offset:4px;}
+
+/* =====================================================
+   FRANCIS COLLECTION
+   ADMINISTRACIÓN DE BANNERS Y COLECCIONES
+===================================================== */
+
+:host {
+  display: block;
+}
+
+/* CONTENEDOR */
+
+.modulo-admin {
+  width: 100%;
+  max-width: 1000px;
+  margin-inline: auto;
+  padding-block: 1rem 3rem;
+  color: #191c1e;
+}
+
+/* ENCABEZADO */
+
+.modulo-encabezado {
+  margin-bottom: 2rem;
+}
+
+.etiqueta {
+  margin: 0;
+  color: #806146;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.18em;
+}
+
+h1 {
+  margin: 1rem 0;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.intro {
+  max-width: 700px;
+  margin: 0;
+  color: #625d56;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* PANEL PRINCIPAL */
+
+.panel-informativo {
+  padding: clamp(1.25rem, 4vw, 2.25rem);
+  border: 1px solid #e5e8e9;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.panel-icono {
+  display: grid;
+  place-items: center;
+
+  width: 44px;
+  height: 44px;
+  margin-bottom: 1.5rem;
+
+  border: 1px solid #dbc7af;
+  border-radius: 50%;
+
+  background: #f7f3ee;
+  color: #806146;
+
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+/* TEXTOS */
+
+h2 {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.panel-informativo p {
+  max-width: 750px;
+  margin: 0 0 1rem;
+  color: #625d56;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+/* SECCIONES DE CONTENIDO */
+
+.contenido-seccion {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid #e7e9eb;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+.contenido-seccion p {
+  margin-bottom: 1rem;
+}
+
+/* ESTADOS PENDIENTES */
+
+.estado-integracion {
+  padding: 0.9rem 1rem;
+  border-radius: 6px;
+  background: #f1efec;
+  color: #625746;
+  font-size: 0.83rem;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+/* INFORMACIÓN DEL BACKEND */
+
+.endpoint {
+  margin-top: 1.75rem;
+  padding: 1rem;
+
+  border-left: 3px solid #ad8968;
+  border-radius: 4px;
+
+  background: #f7f6f4;
+  overflow-wrap: anywhere;
+}
+
+.endpoint strong {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: #54493d;
+  font-size: 0.85rem;
+}
+
+.endpoint p {
+  margin-bottom: 0.5rem;
+  color: #625d56;
+  font-family: ui-monospace, monospace;
+  font-size: 0.8rem;
+}
+
+.endpoint p:last-child {
+  margin-bottom: 0;
+}
+
+/* ADVERTENCIA */
+
+.panel-informativo .advertencia {
+  margin-top: 1.25rem;
+  color: #806146;
+  font-weight: 700;
+}
+
+/* BOTONES DE NAVEGACIÓN */
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 1.75rem;
+}
+
+.boton-principal,
+.boton-secundario {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 45px;
+  padding: 0.78rem 1.2rem;
+  border-radius: 8px;
+
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.boton-principal {
+  border: 1px solid #191c1e;
+  background: #191c1e;
+  color: #ffffff;
+}
+
+.boton-principal:hover {
+  background: #383e42;
+}
+
+.boton-secundario {
+  border: 1px solid #dfe3e5;
+  background: #ffffff;
+  color: #30373a;
+}
+
+.boton-secundario:hover {
+  background: #f2f3f4;
+}
+
+/* ACCESIBILIDAD */
+
+.boton-principal:focus-visible,
+.boton-secundario:focus-visible {
+  outline: 3px solid #997959;
+  outline-offset: 4px;
+}
+
+/* MÓVIL */
+
+@media (max-width: 640px) {
+
+  .modulo-admin {
+    padding-block: 0.5rem 2rem;
+  }
+
+  h1 {
+    font-size: 2.1rem;
+  }
+
+  .contenido-seccion {
+    padding: 1rem;
+  }
+
+  .acciones {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .boton-principal,
+  .boton-secundario {
+    width: 100%;
+  }
+}
+
+/* MOVIMIENTO REDUCIDO */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .boton-principal,
+  .boton-secundario {
+    transition: none;
+  }
+}

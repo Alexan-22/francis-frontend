@@ -1,11 +1,127 @@
-<section class="modulo-admin" aria-labelledby="titulo-modulo">
-  <p class="etiqueta">FRANCIS COLLECTION / ADMINISTRACIÓN</p>
-  <h1 id="titulo-modulo">Inventario y stock</h1>
-  <p class="intro">Disponibilidad y movimientos por talla</p>
-  <div class="panel-informativo" role="status">
-    <h2>Integración pendiente de validar</h2>
-    <p>Esta sección ya tiene una pantalla responsive. Para mostrar datos o ejecutar acciones, primero verificaremos los DTO, métodos, permisos y respuestas reales del API Gateway.</p>
-    <p class="endpoint">Ruta prevista: /api/productos</p>
-    <a routerLink="/admin">Volver al panel</a>
-  </div>
+
+<!-- =====================================================
+     FRANCIS COLLECTION
+     ADMINISTRACIÓN DE INVENTARIO Y STOCK
+===================================================== -->
+
+<section
+  class="modulo-admin"
+  aria-labelledby="titulo-modulo"
+>
+
+  <!-- ENCABEZADO -->
+
+  <header class="modulo-encabezado">
+
+    <p class="etiqueta">
+      FRANCIS COLLECTION / INVENTARIO
+    </p>
+
+    <h1 id="titulo-modulo">
+      Inventario y stock
+    </h1>
+
+    <p class="intro">
+      Consulta las existencias de productos y tallas,
+      y administra los movimientos de inventario.
+    </p>
+
+  </header>
+
+  <!-- PANEL DE INTEGRACIÓN -->
+
+  <section
+    class="panel-informativo"
+    aria-labelledby="integracion-titulo"
+  >
+
+    <div class="panel-icono" aria-hidden="true">
+      !
+    </div>
+
+    <h2 id="integracion-titulo">
+      Integración de inventario pendiente
+    </h2>
+
+    <p>
+      La pantalla administrativa está preparada,
+      pero todavía debemos verificar los endpoints,
+      DTO y permisos necesarios para consultar
+      y administrar las existencias reales.
+    </p>
+
+    <p>
+      El catálogo de productos puede proporcionar
+      información de tallas y disponibilidad,
+      pero no sustituye una consulta completa
+      del inventario administrativo.
+    </p>
+
+    <!-- FUNCIONALIDADES -->
+
+    <h3>
+      Funcionalidades por integrar
+    </h3>
+
+    <ul class="lista-funciones">
+
+      <li>
+        Consultar productos y variantes por talla.
+      </li>
+
+      <li>
+        Mostrar stock físico, reservado y disponible,
+        cuando el backend proporcione esos datos.
+      </li>
+
+      <li>
+        Registrar reposiciones y ajustes de inventario.
+      </li>
+
+      <li>
+        Consultar movimientos con fecha,
+        motivo y responsable.
+      </li>
+
+      <li>
+        Identificar productos con existencias bajas.
+      </li>
+
+    </ul>
+
+    <!-- INFORMACIÓN DE ENDPOINTS -->
+
+    <p class="endpoint">
+      Endpoint de catálogo conocido: GET /api/productos.
+      Endpoints administrativos de inventario:
+      pendientes de verificar.
+    </p>
+
+    <p class="advertencia">
+      Esta pantalla todavía no modifica existencias
+      ni registra movimientos de inventario.
+    </p>
+
+    <!-- NAVEGACIÓN -->
+
+    <div class="acciones">
+
+      <a
+        routerLink="/admin/productos"
+        class="boton-principal"
+      >
+        Consultar productos
+      </a>
+
+      <a
+        routerLink="/admin"
+        class="boton-secundario"
+      >
+        Volver al dashboard
+      </a>
+
+    </div>
+
+  </section>
+
 </section>

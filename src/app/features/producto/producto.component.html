@@ -1,5 +1,330 @@
-<section class="container-page detail-page"><nav class="breadcrumbs" aria-label="Ruta de navegación"><a routerLink="/">Inicio</a><span>/</span><a routerLink="/tienda">Tienda</a><span>/</span><span>Detalle</span></nav>
-@if(error()){<div role="alert" class="notice mt-8">{{error()}}</div>}
-@if(cargando()){<p class="loading-state" role="status">Cargando información de producto…</p>}
-@if(producto();as p){<div class="product-detail-grid"><div class="detail-image">@if(p.imagenPrincipal){<img [src]="p.imagenPrincipal" [alt]="p.nombre">} @else {<div class="image-fallback"><span aria-hidden="true">F.</span><small>Imagen no disponible</small></div>}</div><div class="detail-info"><p class="eyebrow">FRANCIS COLLECTION / PRODUCTO</p><h1>{{p.nombre}}</h1><p class="detail-price">{{precio(p.precio)}}</p><div class="detail-divider"></div><h2 class="detail-subtitle">Detalles de la prenda</h2><p class="detail-description">{{p.descripcion || 'Descripción no disponible.'}}</p><fieldset class="size-fieldset"><legend>Selecciona tu talla <span>*</span></legend><div class="sizes">@for(t of p.tallas || [];track t.idProductoTalla){<button type="button" class="size-option" [class.selected]="talla()?.idProductoTalla===t.idProductoTalla" [disabled]="t.stockDisponible<=0" [attr.aria-pressed]="talla()?.idProductoTalla===t.idProductoTalla" (click)="talla.set(t)">{{t.talla}} @if(t.stockDisponible<=0){<small>Agotado</small>}</button>} @empty {<p class="muted">Las tallas no están disponibles en la respuesta de la API.</p>}</div></fieldset><div class="quantity-group"><label for="cantidad">Cantidad</label><input id="cantidad" type="number" min="1" max="99" class="field quantity-field" [value]="cantidad()" (input)="actualizarCantidad($event)"></div><button class="btn add-to-cart" [disabled]="!talla()||cantidad()<1||cantidad()>talla()!.stockDisponible" (click)="agregar(p)">Agregar a la bolsa <span aria-hidden="true">↗</span></button><p aria-live="polite" class="feedback-text">{{mensaje()}}</p><div class="product-note"><strong>Información importante</strong><p>Añadir productos a tu bolsa no reserva stock. La disponibilidad y los precios se verificarán antes de crear el pedido.</p></div></div></div>}
+<!-- =====================================================
+     FRANCIS COLLECTION - DETALLE DE PRODUCTO
+===================================================== -->
+
+<section class="container-page detail-page">
+
+  <!-- NAVEGACIÓN -->
+
+  <nav
+    class="breadcrumbs"
+    aria-label="Ruta de navegación"
+  >
+    <a routerLink="/">
+      Inicio
+    </a>
+
+    <span aria-hidden="true">/</span>
+
+    <a routerLink="/tienda">
+      Tienda
+    </a>
+
+    <span aria-hidden="true">/</span>
+
+    <span aria-current="page">
+      Detalle
+    </span>
+  </nav>
+
+  <!-- ESTADO DE CARGA -->
+
+  @if (cargando()) {
+
+    <p
+      class="loading-state"
+      role="status"
+    >
+      Cargando información del producto…
+    </p>
+
+  }
+
+  <!-- ERROR DE CONSULTA -->
+
+  @if (error()) {
+
+    <div
+      role="alert"
+      class="notice mt-8"
+    >
+      <p>
+        {{ error() }}
+      </p>
+
+      @if (!producto()) {
+
+        <a
+          routerLink="/tienda"
+          class="text-link mt-4 inline-block"
+        >
+          Volver al catálogo
+        </a>
+
+      }
+    </div>
+
+  }
+
+  <!-- PRODUCTO -->
+
+  @if (producto(); as p) {
+
+    <div class="product-detail-grid">
+
+      <!-- IMAGEN -->
+
+      <div class="detail-image">
+
+        @if (p.imagenPrincipal) {
+
+          <img
+            [src]="p.imagenPrincipal"
+            [alt]="p.nombre"
+            loading="eager"
+            decoding="async"
+          />
+
+        } @else {
+
+          <div class="image-fallback">
+
+            <span aria-hidden="true">
+              F.
+            </span>
+
+            <small>
+              Imagen no disponible
+            </small>
+
+          </div>
+
+        }
+
+      </div>
+
+      <!-- INFORMACIÓN DEL PRODUCTO -->
+
+      <div class="detail-info">
+
+        <p class="eyebrow">
+          FRANCIS COLLECTION / PRODUCTO
+        </p>
+
+        <h1>
+          {{ p.nombre }}
+        </h1>
+
+        <p class="detail-price">
+          {{ precio(p.precio) }}
+        </p>
+
+        @if (p.activo === false) {
+
+          <p
+            role="status"
+            class="mt-3 text-sm text-red-600"
+          >
+            Este producto no está disponible actualmente.
+          </p>
+
+        }
+
+        <div class="detail-divider"></div>
+
+        <!-- DESCRIPCIÓN -->
+
+        <h2 class="detail-subtitle">
+          Detalles de la prenda
+        </h2>
+
+        <p class="detail-description">
+          {{ p.descripcion || 'Descripción no disponible.' }}
+        </p>
+
+        <!-- SELECCIÓN DE TALLAS -->
+
+        <fieldset class="size-fieldset">
+
+          <legend>
+            Selecciona tu talla
+            <span aria-hidden="true">*</span>
+          </legend>
+
+          <div class="sizes">
+
+            @for (
+              t of p.tallas || [];
+              track t.idProductoTalla
+            ) {
+
+              <button
+                type="button"
+                class="size-option"
+                [class.selected]="
+                  talla()?.idProductoTalla === t.idProductoTalla
+                "
+                [disabled]="
+                  t.stockDisponible <= 0 ||
+                  p.activo === false
+                "
+                [attr.aria-pressed]="
+                  talla()?.idProductoTalla === t.idProductoTalla
+                "
+                (click)="
+                  talla.set(t);
+                  mensaje.set('')
+                "
+              >
+
+                {{ t.talla }}
+
+                @if (t.stockDisponible <= 0) {
+
+                  <small>
+                    Agotado
+                  </small>
+
+                }
+
+              </button>
+
+            } @empty {
+
+              <p class="muted">
+                No hay tallas disponibles para seleccionar.
+              </p>
+
+            }
+
+          </div>
+
+          @if (talla(); as seleccionada) {
+
+            <p class="mt-3 text-sm text-stone-600">
+              Talla seleccionada:
+              <strong>{{ seleccionada.talla }}</strong>.
+
+              Stock disponible:
+              {{ seleccionada.stockDisponible }}.
+            </p>
+
+          }
+
+        </fieldset>
+
+        <!-- CANTIDAD -->
+
+        <div class="quantity-group">
+
+          <label for="cantidad">
+            Cantidad
+          </label>
+
+          <input
+            id="cantidad"
+            name="cantidad"
+            type="number"
+            class="field quantity-field"
+            min="1"
+            max="99"
+            step="1"
+            inputmode="numeric"
+            [value]="cantidad()"
+            [disabled]="
+              !talla() ||
+              p.activo === false
+            "
+            [attr.aria-invalid]="
+              cantidad() < 1 ||
+              cantidad() > 99 ||
+              cantidad() > (talla()?.stockDisponible ?? 0)
+            "
+            (input)="actualizarCantidad($event)"
+          />
+
+        </div>
+
+        <!-- MENSAJE DE CANTIDAD INVÁLIDA -->
+
+        @if (
+          talla() &&
+          (
+            cantidad() < 1 ||
+            cantidad() > 99 ||
+            cantidad() > (talla()?.stockDisponible ?? 0)
+          )
+        ) {
+
+          <p
+            class="mt-2 text-sm text-red-600"
+            role="alert"
+          >
+            Selecciona una cantidad válida que no
+            supere el stock disponible ni las 99 unidades.
+          </p>
+
+        }
+
+        <!-- AGREGAR AL CARRITO -->
+
+        <button
+          type="button"
+          class="btn add-to-cart"
+          [disabled]="
+            p.activo === false ||
+            !talla() ||
+            cantidad() < 1 ||
+            cantidad() > 99 ||
+            cantidad() > (talla()?.stockDisponible ?? 0)
+          "
+          (click)="agregar(p)"
+        >
+
+          Agregar a la bolsa
+
+          <span aria-hidden="true">
+            ↗
+          </span>
+
+        </button>
+
+        <!-- MENSAJES -->
+
+        @if (mensaje()) {
+
+          <p
+            aria-live="polite"
+            class="feedback-text"
+            role="status"
+          >
+            {{ mensaje() }}
+          </p>
+
+        }
+
+        <!-- INFORMACIÓN IMPORTANTE -->
+
+        <div class="product-note">
+
+          <strong>
+            Información importante
+          </strong>
+
+          <p>
+            Añadir productos a tu bolsa no reserva stock.
+
+            La disponibilidad y los precios se
+            verificarán nuevamente antes de
+            confirmar el pedido.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
 </section>

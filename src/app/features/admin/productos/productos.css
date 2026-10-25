@@ -520,3 +520,51 @@
     transition: none;
   }
 }
+
+
+/* =====================================================
+   TRANSICIONES CORREGIDAS
+===================================================== */
+
+.productos-button-primary,
+.productos-button-secondary {
+  transition: background 0.2s ease;
+}
+
+.productos-table tbody tr {
+  transition: background 0.15s ease;
+}
+
+/* =====================================================
+   ACCESIBILIDAD CON TECLADO
+===================================================== */
+
+.productos-button-primary:focus-visible,
+.productos-button-secondary:focus-visible,
+.producto-ver:focus-visible,
+.productos-message button:focus-visible {
+  outline: 3px solid #997959;
+  outline-offset: 3px;
+}
+
+/* =====================================================
+   ESTADOS DE BOTONES
+===================================================== */
+
+.productos-button-secondary:disabled,
+.productos-message button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* =====================================================
+   PROTECCIÓN CONTRA TEXTOS LARGOS
+===================================================== */
+
+.producto-datos {
+  min-width: 0;
+}
+
+.producto-datos strong {
+  overflow-wrap: anywhere;
+}

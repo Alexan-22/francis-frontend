@@ -1,11 +1,156 @@
-<section class="modulo-admin" aria-labelledby="titulo-modulo">
-  <p class="etiqueta">FRANCIS COLLECTION / ADMINISTRACIÓN</p>
-  <h1 id="titulo-modulo">Usuarios</h1>
-  <p class="intro">Gestión de cuentas y permisos</p>
-  <div class="panel-informativo" role="status">
-    <h2>Integración pendiente de validar</h2>
-    <p>Esta sección ya tiene una pantalla responsive. Para mostrar datos o ejecutar acciones, primero verificaremos los DTO, métodos, permisos y respuestas reales del API Gateway.</p>
-    <p class="endpoint">Ruta prevista: /api/usuarios</p>
-    <a routerLink="/admin">Volver al panel</a>
-  </div>
+
+<!-- =====================================================
+     FRANCIS COLLECTION
+     ADMINISTRACIÓN DE USUARIOS
+===================================================== -->
+
+<section
+  class="modulo-admin"
+  aria-labelledby="titulo-modulo"
+>
+
+  <!-- ===================================================
+       ENCABEZADO
+  =================================================== -->
+
+  <header class="modulo-encabezado">
+
+    <p class="etiqueta">
+      FRANCIS COLLECTION / ADMINISTRACIÓN
+    </p>
+
+    <h1 id="titulo-modulo">
+      Usuarios
+    </h1>
+
+    <p class="intro">
+      Administración de cuentas, estados de acceso
+      y permisos del sistema.
+    </p>
+
+  </header>
+
+  <!-- ===================================================
+       PANEL DE INTEGRACIÓN
+  =================================================== -->
+
+  <section
+    class="panel-informativo"
+    aria-labelledby="integracion-titulo"
+  >
+
+    <div
+      class="panel-icono"
+      aria-hidden="true"
+    >
+      !
+    </div>
+
+    <h2 id="integracion-titulo">
+      Gestión de usuarios pendiente de integración
+    </h2>
+
+    <p>
+      Este módulo está preparado para incorporar
+      la administración de usuarios de
+      Francis Collection.
+    </p>
+
+    <p>
+      Antes de habilitar consultas y modificaciones
+      de cuentas, debemos verificar los endpoints,
+      DTO y permisos administrativos de auth-service
+      a través del API Gateway.
+    </p>
+
+    <!-- =================================================
+         FUNCIONALIDADES PREVISTAS
+    ================================================= -->
+
+    <h3>
+      Funcionalidades por integrar
+    </h3>
+
+    <ul class="lista-funciones">
+
+      <li>
+        Consultar las cuentas registradas.
+      </li>
+
+      <li>
+        Buscar usuarios por nombre o correo,
+        si el backend admite esos filtros.
+      </li>
+
+      <li>
+        Consultar el estado de cada cuenta.
+      </li>
+
+      <li>
+        Activar o desactivar cuentas mediante
+        operaciones administrativas autorizadas.
+      </li>
+
+      <li>
+        Gestionar permisos y roles únicamente
+        cuando el backend lo permita.
+      </li>
+
+    </ul>
+
+    <!-- =================================================
+         INFORMACIÓN DEL BACKEND
+    ================================================= -->
+
+    <div class="endpoint">
+
+      <strong>
+        Integración con auth-service
+      </strong>
+
+      <p>
+        Perfil autenticado conocido:
+        GET /api/usuarios/me
+      </p>
+
+      <p>
+        Listado y operaciones administrativas:
+        pendientes de verificar.
+      </p>
+
+    </div>
+
+    <!-- =================================================
+         AVISO DE SEGURIDAD
+    ================================================= -->
+
+    <p class="advertencia">
+      Esta pantalla todavía no modifica cuentas,
+      contraseñas ni permisos de usuarios.
+    </p>
+
+    <!-- =================================================
+         NAVEGACIÓN
+    ================================================= -->
+
+    <div class="acciones">
+
+      <a
+        routerLink="/admin"
+        class="boton-principal"
+      >
+        Volver al dashboard
+      </a>
+
+      <a
+        routerLink="/admin/clientes-presenciales"
+        class="boton-secundario"
+      >
+        Clientes presenciales
+      </a>
+
+    </div>
+
+  </section>
+
 </section>

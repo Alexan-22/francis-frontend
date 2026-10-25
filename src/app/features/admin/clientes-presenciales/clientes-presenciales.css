@@ -1,10 +1,106 @@
-.modulo-admin {max-width: 960px; margin-inline: auto; padding-block: 1rem 3rem;}
-.etiqueta {font-size:.72rem;letter-spacing:.18em;font-weight:750;color:#8c5f47;}
-h1 {font-size:clamp(2rem,5vw,3.5rem);line-height:1.08;font-weight:750; margin:1rem 0;}
-.intro {color:#68645f; margin-bottom:2rem;}
-.panel-informativo {border:1px solid #dedbd5;background:#fff; padding:clamp(1rem,4vw,2.25rem); border-radius:6px;}
-h2 {font-weight:750;font-size:1.22rem;margin-bottom:.5rem;}
-.panel-informativo p {color:#625d56;line-height:1.6;margin-bottom:1rem;}
-.endpoint {font-family:ui-monospace,monospace;font-size:.83rem;overflow-wrap:anywhere;}
-a {display:inline-block;background:#24211d;color:#fff;padding:.78rem 1.2rem;border-radius:3px;}
-a:focus-visible {outline:3px solid #a67250;outline-offset:4px;}
+
+/* =====================================================
+   FRANCIS COLLECTION
+   MEJORAS PARA CLIENTES PRESENCIALES
+===================================================== */
+
+.modulo-admin {
+  width: 100%;
+  color: #191c1e;
+}
+
+.panel-informativo {
+  border-radius: 10px;
+}
+
+.panel-informativo h3 {
+  margin: 1.5rem 0 0.75rem;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.lista-funciones {
+  margin: 0 0 1.5rem;
+  padding-left: 1.5rem;
+  list-style-type: disc;
+}
+
+.lista-funciones li {
+  margin-bottom: 0.65rem;
+  color: #625d56;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.endpoint {
+  padding: 1rem;
+  border-left: 3px solid #ad8968;
+  border-radius: 4px;
+  background: #f7f6f4;
+}
+
+.endpoint strong {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: #54493d;
+}
+
+.endpoint p {
+  margin-bottom: 0.5rem;
+}
+
+.panel-informativo .advertencia {
+  margin-top: 1.25rem;
+  font-weight: 700;
+  color: #806146;
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 1.75rem;
+}
+
+.boton-principal,
+.boton-secundario {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 45px;
+  padding: 0.78rem 1.2rem;
+
+  border-radius: 8px;
+
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.boton-principal {
+  background: #24211d;
+  color: #ffffff;
+}
+
+.boton-secundario {
+  border: 1px solid #dedbd5;
+  background: #ffffff;
+  color: #24211d;
+}
+
+.acciones a:focus-visible {
+  outline: 3px solid #a67250;
+  outline-offset: 4px;
+}
+
+@media (max-width: 640px) {
+  .acciones {
+    flex-direction: column;
+  }
+
+  .boton-principal,
+  .boton-secundario {
+    width: 100%;
+  }
+}

@@ -1,11 +1,164 @@
-<section class="modulo-admin" aria-labelledby="titulo-modulo">
-  <p class="etiqueta">FRANCIS COLLECTION / ADMINISTRACIÓN</p>
-  <h1 id="titulo-modulo">Banners y colecciones</h1>
-  <p class="intro">Contenido de la portada</p>
-  <div class="panel-informativo" role="status">
-    <h2>Integración pendiente de validar</h2>
-    <p>Esta sección ya tiene una pantalla responsive. Para mostrar datos o ejecutar acciones, primero verificaremos los DTO, métodos, permisos y respuestas reales del API Gateway.</p>
-    <p class="endpoint">Ruta prevista: /api/home</p>
-    <a routerLink="/admin">Volver al panel</a>
-  </div>
+
+<!-- =====================================================
+     FRANCIS COLLECTION
+     ADMINISTRACIÓN DE LA PÁGINA PRINCIPAL
+===================================================== -->
+
+<section
+  class="modulo-admin"
+  aria-labelledby="titulo-modulo"
+>
+
+  <!-- ENCABEZADO -->
+
+  <header class="modulo-encabezado">
+
+    <p class="etiqueta">
+      FRANCIS COLLECTION / CONTENIDO
+    </p>
+
+    <h1 id="titulo-modulo">
+      Banners y colecciones
+    </h1>
+
+    <p class="intro">
+      Administra el contenido visual que aparece
+      en la portada de Francis Collection.
+    </p>
+
+  </header>
+
+  <!-- PANEL INFORMATIVO -->
+
+  <section
+    class="panel-informativo"
+    aria-labelledby="integracion-titulo"
+  >
+
+    <div
+      class="panel-icono"
+      aria-hidden="true"
+    >
+      i
+    </div>
+
+    <h2 id="integracion-titulo">
+      Administración de contenido pendiente
+    </h2>
+
+    <p>
+      La estructura de esta pantalla está preparada.
+      Para consultar y modificar los banners,
+      primero debemos confirmar los controladores,
+      DTO y permisos de contenido-service.
+    </p>
+
+    <p>
+      La información de la portada debe obtenerse
+      del backend mediante el API Gateway,
+      sin utilizar registros simulados.
+    </p>
+
+    <!-- BANNERS -->
+
+    <section
+      class="contenido-seccion"
+      aria-labelledby="banners-titulo"
+    >
+
+      <h3 id="banners-titulo">
+        Banners principales
+      </h3>
+
+      <p>
+        La base de datos contempla información
+        sobre el título, la imagen, la visibilidad
+        y el orden de los banners.
+      </p>
+
+      <div class="estado-integracion">
+        La consulta y edición de banners
+        todavía no están habilitadas.
+      </div>
+
+    </section>
+
+    <!-- COLECCIONES -->
+
+    <section
+      class="contenido-seccion"
+      aria-labelledby="colecciones-titulo"
+    >
+
+      <h3 id="colecciones-titulo">
+        Colecciones
+      </h3>
+
+      <p>
+        La administración de colecciones
+        se implementará cuando confirmemos
+        su modelo de datos y las operaciones
+        disponibles en el backend.
+      </p>
+
+      <div class="estado-integracion">
+        Contrato de colecciones pendiente
+        de verificar.
+      </div>
+
+    </section>
+
+    <!-- INTEGRACIÓN -->
+
+    <div class="endpoint">
+
+      <strong>
+        Integración con contenido-service
+      </strong>
+
+      <p>
+        Tabla conocida: home_banners.
+      </p>
+
+      <p>
+        Campos conocidos: id, titulo, imagenUrl,
+        visible y orden.
+      </p>
+
+      <p>
+        Endpoints administrativos:
+        pendientes de verificar.
+      </p>
+
+    </div>
+
+    <!-- ADVERTENCIA -->
+
+    <p class="advertencia">
+      Esta pantalla todavía no crea, modifica,
+      elimina ni publica banners.
+    </p>
+
+    <!-- NAVEGACIÓN -->
+
+    <div class="acciones">
+
+      <a
+        routerLink="/"
+        class="boton-principal"
+      >
+        Ver página principal
+      </a>
+
+      <a
+        routerLink="/admin"
+        class="boton-secundario"
+      >
+        Volver al dashboard
+      </a>
+
+    </div>
+
+  </section>
+
 </section>

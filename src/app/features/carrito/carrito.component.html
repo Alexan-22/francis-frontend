@@ -1,2 +1,284 @@
-<section class="container-page cart-page"><nav class="breadcrumbs" aria-label="Ruta de navegación"><a routerLink="/">Inicio</a><span>/</span><span>Carrito</span></nav><div class="cart-heading"><div><p class="eyebrow">TU SELECCIÓN / FRANCIS</p><h1 class="section-title">Tu bolsa.</h1></div><span>{{carrito.cantidad()}} artículos</span></div>
-@if(carrito.cantidad()>0){<div class="cart-layout"><div class="cart-list">@for(item of carrito.items();track item.idProductoTalla){<article class="cart-item"><div class="cart-item-image">@if(item.imagen){<img [src]="item.imagen" [alt]="item.nombre">} @else {<span aria-hidden="true">F.</span>}</div><div class="cart-item-body"><div class="cart-item-top"><div><p class="eyebrow">FRANCIS COLLECTION</p><h2>{{item.nombre}}</h2><p class="muted">Talla {{item.talla}}</p></div><p class="cart-item-price">{{precio(item.precioReferencia)}}</p></div><div class="cart-item-actions"><label [for]="'qty'+item.idProductoTalla">Cantidad</label><input type="number" min="1" max="99" class="field quantity-field" [id]="'qty'+item.idProductoTalla" [value]="item.cantidad" (change)="cantidad(item.idProductoTalla,$event)"><button class="remove-link" (click)="carrito.eliminar(item.idProductoTalla)">Eliminar</button></div></div></article>}</div><aside class="order-summary"><h2>Resumen del pedido</h2><div class="summary-line"><span>Artículos</span><span>{{carrito.cantidad()}}</span></div><div class="summary-line"><span>Subtotal estimado</span><strong>{{precio(carrito.subtotal())}}</strong></div><p class="summary-note">Precios referenciales. El total final, la disponibilidad y el costo de entrega se verifican con el servidor.</p><a routerLink="/checkout" class="btn summary-button">Continuar compra →</a><a routerLink="/tienda" class="text-link summary-continue">← Seguir comprando</a><button class="clear-cart" (click)="carrito.vaciar()">Vaciar bolsa</button></aside></div>} @else {<div class="empty-cart"><div class="empty-cart-icon" aria-hidden="true">F.</div><h2>Tu bolsa está vacía</h2><p>Hay una colección esperando por ti.</p><a routerLink="/tienda" class="btn">Explorar prendas ↗</a></div>}</section>
+<!-- =====================================================
+     FRANCIS COLLECTION - CARRITO DE COMPRAS
+===================================================== -->
+
+<section class="container-page cart-page">
+
+  <!-- NAVEGACIÓN -->
+  <nav
+    class="breadcrumbs"
+    aria-label="Ruta de navegación"
+  >
+    <a routerLink="/">
+      Inicio
+    </a>
+
+    <span aria-hidden="true">/</span>
+
+    <span aria-current="page">
+      Carrito
+    </span>
+  </nav>
+
+  <!-- ENCABEZADO -->
+  <div class="cart-heading">
+
+    <div>
+      <p class="eyebrow">
+        TU SELECCIÓN / FRANCIS
+      </p>
+
+      <h1 class="section-title">
+        Tu bolsa.
+      </h1>
+    </div>
+
+    <span aria-live="polite">
+      {{ carrito.cantidad() }}
+      artículos
+    </span>
+
+  </div>
+
+  @if (carrito.cantidad() > 0) {
+
+    <div class="cart-layout">
+
+      <!-- ============================================
+           LISTADO DE PRODUCTOS
+      ============================================= -->
+
+      <div class="cart-list">
+
+        @for (
+          item of carrito.items();
+          track item.idProductoTalla
+        ) {
+
+          <article class="cart-item">
+
+            <!-- IMAGEN DEL PRODUCTO -->
+            <div class="cart-item-image">
+
+              @if (item.imagen) {
+
+                <img
+                  [src]="item.imagen"
+                  [alt]="item.nombre"
+                  loading="lazy"
+                  decoding="async"
+                />
+
+              } @else {
+
+                <span aria-hidden="true">
+                  F.
+                </span>
+
+              }
+
+            </div>
+
+            <!-- INFORMACIÓN -->
+            <div class="cart-item-body">
+
+              <div class="cart-item-top">
+
+                <div>
+
+                  <p class="eyebrow">
+                    FRANCIS COLLECTION
+                  </p>
+
+                  <h2>
+                    {{ item.nombre }}
+                  </h2>
+
+                  <p class="muted">
+                    Talla: {{ item.talla }}
+                  </p>
+
+                </div>
+
+                <!-- PRECIO UNITARIO -->
+                <p class="cart-item-price">
+                  {{ precio(item.precioReferencia) }}
+                </p>
+
+              </div>
+
+              <!-- CONTROLES DEL ARTÍCULO -->
+              <div class="cart-item-actions">
+
+                <label
+                  [for]="'qty' + item.idProductoTalla"
+                >
+                  Cantidad
+                </label>
+
+                <input
+                  type="number"
+                  min="1"
+                  max="99"
+                  step="1"
+                  inputmode="numeric"
+                  class="field quantity-field"
+                  [id]="'qty' + item.idProductoTalla"
+                  [value]="item.cantidad"
+                  [attr.aria-label]="
+                    'Cantidad de ' +
+                    item.nombre +
+                    ', talla ' +
+                    item.talla
+                  "
+                  (change)="
+                    cantidad(item.idProductoTalla, $event)
+                  "
+                />
+
+                <!-- ELIMINAR ARTÍCULO -->
+                <button
+                  type="button"
+                  class="remove-link"
+                  [attr.aria-label]="
+                    'Eliminar ' +
+                    item.nombre +
+                    ', talla ' +
+                    item.talla
+                  "
+                  (click)="
+                    carrito.eliminar(item.idProductoTalla)
+                  "
+                >
+                  Eliminar
+                </button>
+
+              </div>
+
+              <!-- IMPORTE REFERENCIAL POR ARTÍCULO -->
+              <p class="mt-3 text-sm text-stone-600">
+                Importe estimado:
+                <strong>
+                  {{
+                    precio(
+                      item.precioReferencia * item.cantidad
+                    )
+                  }}
+                </strong>
+              </p>
+
+            </div>
+
+          </article>
+
+        }
+
+      </div>
+
+      <!-- ============================================
+           RESUMEN DEL PEDIDO
+      ============================================= -->
+
+      <aside class="order-summary">
+
+        <h2>
+          Resumen del pedido
+        </h2>
+
+        <div class="summary-line">
+
+          <span>
+            Artículos
+          </span>
+
+          <span>
+            {{ carrito.cantidad() }}
+          </span>
+
+        </div>
+
+        <div class="summary-line">
+
+          <span>
+            Subtotal estimado
+          </span>
+
+          <strong>
+            {{ precio(carrito.subtotal()) }}
+          </strong>
+
+        </div>
+
+        <p class="summary-note">
+          Los precios son referenciales.
+
+          El total definitivo, la disponibilidad
+          de productos y el costo de entrega se
+          verificarán con el servidor antes
+          de confirmar el pedido.
+        </p>
+
+        <!-- CONTINUAR COMPRA -->
+        <a
+          routerLink="/checkout"
+          class="btn summary-button"
+        >
+          Continuar compra →
+        </a>
+
+        <!-- SEGUIR COMPRANDO -->
+        <a
+          routerLink="/tienda"
+          class="text-link summary-continue"
+        >
+          ← Seguir comprando
+        </a>
+
+        <!-- VACIAR CARRITO -->
+        <button
+          type="button"
+          class="clear-cart"
+          (click)="carrito.vaciar()"
+        >
+          Vaciar bolsa
+        </button>
+
+      </aside>
+
+    </div>
+
+  } @else {
+
+    <!-- ============================================
+         CARRITO VACÍO
+    ============================================= -->
+
+    <div class="empty-cart">
+
+      <div
+        class="empty-cart-icon"
+        aria-hidden="true"
+      >
+        F.
+      </div>
+
+      <h2>
+        Tu bolsa está vacía
+      </h2>
+
+      <p>
+        Hay una colección esperando por ti.
+      </p>
+
+      <a
+        routerLink="/tienda"
+        class="btn"
+      >
+        Explorar prendas ↗
+      </a>
+
+    </div>
+
+  }
+
+</section>

@@ -1,10 +1,266 @@
-.modulo-admin {max-width: 960px; margin-inline: auto; padding-block: 1rem 3rem;}
-.etiqueta {font-size:.72rem;letter-spacing:.18em;font-weight:750;color:#8c5f47;}
-h1 {font-size:clamp(2rem,5vw,3.5rem);line-height:1.08;font-weight:750; margin:1rem 0;}
-.intro {color:#68645f; margin-bottom:2rem;}
-.panel-informativo {border:1px solid #dedbd5;background:#fff; padding:clamp(1rem,4vw,2.25rem); border-radius:6px;}
-h2 {font-weight:750;font-size:1.22rem;margin-bottom:.5rem;}
-.panel-informativo p {color:#625d56;line-height:1.6;margin-bottom:1rem;}
-.endpoint {font-family:ui-monospace,monospace;font-size:.83rem;overflow-wrap:anywhere;}
-a {display:inline-block;background:#24211d;color:#fff;padding:.78rem 1.2rem;border-radius:3px;}
-a:focus-visible {outline:3px solid #a67250;outline-offset:4px;}
+
+/* =====================================================
+   FRANCIS COLLECTION
+   ADMINISTRACIÓN DE USUARIOS
+===================================================== */
+
+:host {
+  display: block;
+}
+
+/* =====================================================
+   CONTENEDOR PRINCIPAL
+===================================================== */
+
+.modulo-admin {
+  width: 100%;
+  max-width: 960px;
+  margin-inline: auto;
+  padding-block: 1rem 3rem;
+  color: #191c1e;
+}
+
+/* =====================================================
+   ENCABEZADO
+===================================================== */
+
+.modulo-encabezado {
+  margin-bottom: 2rem;
+}
+
+.etiqueta {
+  margin: 0;
+  color: #806146;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.18em;
+}
+
+h1 {
+  margin: 1rem 0;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.intro {
+  max-width: 700px;
+  margin: 0;
+  color: #625d56;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* =====================================================
+   PANEL INFORMATIVO
+===================================================== */
+
+.panel-informativo {
+  padding: clamp(1.25rem, 4vw, 2.25rem);
+  border: 1px solid #e5e8e9;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.panel-icono {
+  display: grid;
+  place-items: center;
+
+  width: 44px;
+  height: 44px;
+  margin-bottom: 1.5rem;
+
+  border: 1px solid #dbc7af;
+  border-radius: 50%;
+
+  background: #f7f3ee;
+  color: #806146;
+
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+/* =====================================================
+   TÍTULOS Y DESCRIPCIONES
+===================================================== */
+
+h2 {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+h3 {
+  margin: 1.75rem 0 0.75rem;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.panel-informativo p {
+  max-width: 750px;
+  margin: 0 0 1rem;
+  color: #625d56;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+/* =====================================================
+   LISTADO DE FUNCIONALIDADES
+===================================================== */
+
+.lista-funciones {
+  margin: 0 0 1.5rem;
+  padding-left: 1.5rem;
+  list-style-type: disc;
+}
+
+.lista-funciones li {
+  margin-bottom: 0.6rem;
+  color: #625d56;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+/* =====================================================
+   ESTADO DE INTEGRACIÓN
+===================================================== */
+
+.endpoint {
+  padding: 1rem;
+  margin-top: 1.5rem;
+  border-left: 3px solid #ad8968;
+  border-radius: 4px;
+  background: #f7f6f4;
+  overflow-wrap: anywhere;
+}
+
+.endpoint strong {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: #54493d;
+  font-size: 0.85rem;
+}
+
+.endpoint p {
+  margin-bottom: 0.5rem;
+  color: #625d56;
+  font-family: ui-monospace, monospace;
+  font-size: 0.8rem;
+}
+
+.endpoint p:last-child {
+  margin-bottom: 0;
+}
+
+/* =====================================================
+   AVISO DE SEGURIDAD
+===================================================== */
+
+.panel-informativo .advertencia {
+  margin-top: 1.25rem;
+  font-weight: 700;
+  color: #806146;
+}
+
+/* =====================================================
+   BOTONES DE NAVEGACIÓN
+===================================================== */
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 1.75rem;
+}
+
+.boton-principal,
+.boton-secundario {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 45px;
+  padding: 0.78rem 1.2rem;
+
+  border-radius: 8px;
+
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.boton-principal {
+  border: 1px solid #191c1e;
+  background: #191c1e;
+  color: #ffffff;
+}
+
+.boton-principal:hover {
+  background: #383e42;
+}
+
+.boton-secundario {
+  border: 1px solid #dfe3e5;
+  background: #ffffff;
+  color: #30373a;
+}
+
+.boton-secundario:hover {
+  background: #f2f3f4;
+}
+
+/* =====================================================
+   ACCESIBILIDAD
+===================================================== */
+
+.boton-principal:focus-visible,
+.boton-secundario:focus-visible {
+  outline: 3px solid #997959;
+  outline-offset: 4px;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 640px) {
+
+  .modulo-admin {
+    padding-block: 0.5rem 2rem;
+  }
+
+  h1 {
+    font-size: 2.1rem;
+  }
+
+  .acciones {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .boton-principal,
+  .boton-secundario {
+    width: 100%;
+  }
+}
+
+/* =====================================================
+   MOVIMIENTO REDUCIDO
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .boton-principal,
+  .boton-secundario {
+    transition: none;
+  }
+
+}

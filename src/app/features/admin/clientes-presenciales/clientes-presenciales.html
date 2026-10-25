@@ -1,11 +1,133 @@
-<section class="modulo-admin" aria-labelledby="titulo-modulo">
-  <p class="etiqueta">FRANCIS COLLECTION / ADMINISTRACIÓN</p>
-  <h1 id="titulo-modulo">Clientes presenciales</h1>
-  <p class="intro">Registro de clientes para el POS</p>
-  <div class="panel-informativo" role="status">
-    <h2>Integración pendiente de validar</h2>
-    <p>Esta sección ya tiene una pantalla responsive. Para mostrar datos o ejecutar acciones, primero verificaremos los DTO, métodos, permisos y respuestas reales del API Gateway.</p>
-    <p class="endpoint">Ruta prevista: /api/clientes-presenciales</p>
-    <a routerLink="/admin">Volver al panel</a>
-  </div>
+
+<!-- =====================================================
+     FRANCIS COLLECTION
+     CLIENTES PRESENCIALES
+===================================================== -->
+
+<section
+  class="modulo-admin"
+  aria-labelledby="titulo-modulo"
+>
+
+  <!-- ENCABEZADO -->
+
+  <header>
+
+    <p class="etiqueta">
+      FRANCIS COLLECTION / PUNTO DE VENTA
+    </p>
+
+    <h1 id="titulo-modulo">
+      Clientes presenciales
+    </h1>
+
+    <p class="intro">
+      Consulta y administra los clientes asociados
+      a las ventas presenciales de Francis Collection.
+    </p>
+
+  </header>
+
+  <!-- PANEL INFORMATIVO -->
+
+  <section
+    class="panel-informativo"
+    aria-labelledby="integracion-titulo"
+  >
+
+    <h2 id="integracion-titulo">
+      Gestión de clientes pendiente de integración
+    </h2>
+
+    <p>
+      Esta sección está preparada para incorporar
+      las funcionalidades de clientes presenciales.
+    </p>
+
+    <p>
+      Antes de habilitar el registro y la consulta
+      de clientes, verificaremos los endpoints,
+      los modelos de datos, las validaciones
+      y los permisos de comercio-service.
+    </p>
+
+    <h3>
+      Funcionalidades previstas
+    </h3>
+
+    <ul class="lista-funciones">
+
+      <li>
+        Registrar clientes presenciales.
+      </li>
+
+      <li>
+        Consultar y buscar clientes registrados.
+      </li>
+
+      <li>
+        Actualizar información autorizada
+        de los clientes.
+      </li>
+
+      <li>
+        Asociar un cliente a una venta presencial,
+        según las reglas del backend.
+      </li>
+
+      <li>
+        Consultar su historial de operaciones
+        cuando exista una API autorizada.
+      </li>
+
+    </ul>
+
+    <!-- INTEGRACIÓN -->
+
+    <div class="endpoint">
+
+      <strong>
+        Integración con comercio-service
+      </strong>
+
+      <p>
+        Ruta prevista: /api/clientes-presenciales
+      </p>
+
+      <p>
+        Endpoint real, métodos HTTP y DTO:
+        pendientes de verificar.
+      </p>
+
+    </div>
+
+    <!-- SEGURIDAD -->
+
+    <p class="advertencia">
+      Esta pantalla no registra ni modifica
+      información personal de clientes.
+    </p>
+
+    <!-- NAVEGACIÓN -->
+
+    <div class="acciones">
+
+      <a
+        routerLink="/admin/vender"
+        class="boton-principal"
+      >
+        Ir al punto de venta
+      </a>
+
+      <a
+        routerLink="/admin"
+        class="boton-secundario"
+      >
+        Volver al dashboard
+      </a>
+
+    </div>
+
+  </section>
+
 </section>

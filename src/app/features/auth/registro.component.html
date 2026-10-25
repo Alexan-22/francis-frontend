@@ -1,1 +1,311 @@
-<section class="container-page max-w-xl py-14"><h1 class="section-title">Crear cuenta</h1><form class="mt-8 space-y-5" [formGroup]="form" (ngSubmit)="registrar()"><label class="block">Nombres<input formControlName="nombres" class="field mt-2" autocomplete="given-name"></label><label class="block">Apellidos<input formControlName="apellidos" class="field mt-2" autocomplete="family-name"></label><label class="block">Correo<input formControlName="correo" type="email" class="field mt-2" autocomplete="email"></label><label class="block">Contraseña<input formControlName="contrasena" type="password" class="field mt-2" autocomplete="new-password"></label><label class="block">Confirmar contraseña<input formControlName="confirmacion" type="password" class="field mt-2" autocomplete="new-password"></label><p class="text-sm text-stone-600">Los requisitos finales de contraseña dependen del backend.</p><button class="btn w-full" [disabled]="form.invalid||cargando()">Crear cuenta</button><p role="alert">{{error()}}</p><p aria-live="polite">{{mensaje()}}</p></form><a routerLink="/login" class="mt-6 inline-block underline">Volver al inicio de sesión</a></section>
+<!-- =====================================================
+     REGISTRO DE CLIENTES — FRANCIS COLLECTION
+===================================================== -->
+
+<section class="container-page max-w-xl py-14">
+
+  <!-- ENCABEZADO -->
+
+  <header>
+    <h1 class="section-title">
+      Crear cuenta
+    </h1>
+
+    <p class="mt-4 text-stone-600">
+      Regístrate en Francis Collection para realizar
+      tus compras y consultar tus pedidos.
+    </p>
+  </header>
+
+  <!-- FORMULARIO -->
+
+  <form
+    class="mt-8 space-y-5"
+    [formGroup]="form"
+    (ngSubmit)="registrar()"
+    novalidate
+  >
+
+    <!-- NOMBRES -->
+
+    <div>
+
+      <label for="nombres" class="mb-2 block">
+        Nombres
+      </label>
+
+      <input
+        id="nombres"
+        name="nombres"
+        type="text"
+        formControlName="nombres"
+        class="field"
+        placeholder="Ingresa tus nombres"
+        autocomplete="given-name"
+        maxlength="255"
+        required
+        [attr.aria-invalid]="
+          form.controls.nombres.invalid &&
+          form.controls.nombres.touched
+        "
+      />
+
+      @if (
+        form.controls.nombres.touched &&
+        form.controls.nombres.hasError('required')
+      ) {
+        <p class="mt-2 text-sm text-red-600">
+          Ingresa tus nombres.
+        </p>
+      }
+
+    </div>
+
+    <!-- APELLIDOS -->
+
+    <div>
+
+      <label for="apellidos" class="mb-2 block">
+        Apellidos
+      </label>
+
+      <input
+        id="apellidos"
+        name="apellidos"
+        type="text"
+        formControlName="apellidos"
+        class="field"
+        placeholder="Ingresa tus apellidos"
+        autocomplete="family-name"
+        maxlength="255"
+        required
+        [attr.aria-invalid]="
+          form.controls.apellidos.invalid &&
+          form.controls.apellidos.touched
+        "
+      />
+
+      @if (
+        form.controls.apellidos.touched &&
+        form.controls.apellidos.hasError('required')
+      ) {
+        <p class="mt-2 text-sm text-red-600">
+          Ingresa tus apellidos.
+        </p>
+      }
+
+    </div>
+
+    <!-- CORREO ELECTRÓNICO -->
+
+    <div>
+
+      <label for="correo" class="mb-2 block">
+        Correo electrónico
+      </label>
+
+      <input
+        id="correo"
+        name="email"
+        type="email"
+        formControlName="correo"
+        class="field"
+        placeholder="correo@ejemplo.com"
+        autocomplete="email"
+        required
+        [attr.aria-invalid]="
+          form.controls.correo.invalid &&
+          form.controls.correo.touched
+        "
+      />
+
+      @if (
+        form.controls.correo.touched &&
+        form.controls.correo.hasError('required')
+      ) {
+        <p class="mt-2 text-sm text-red-600">
+          Ingresa tu correo electrónico.
+        </p>
+      }
+
+      @if (
+        form.controls.correo.touched &&
+        form.controls.correo.hasError('email')
+      ) {
+        <p class="mt-2 text-sm text-red-600">
+          Ingresa un correo electrónico válido.
+        </p>
+      }
+
+    </div>
+
+    <!-- CONTRASEÑA -->
+
+    <div>
+
+      <label for="contrasena" class="mb-2 block">
+        Contraseña
+      </label>
+
+      <input
+        id="contrasena"
+        name="password"
+        type="password"
+        formControlName="contrasena"
+        class="field"
+        placeholder="Crea una contraseña"
+        autocomplete="new-password"
+        minlength="8"
+        required
+        [attr.aria-invalid]="
+          form.controls.contrasena.invalid &&
+          form.controls.contrasena.touched
+        "
+      />
+
+      <p class="mt-2 text-sm text-stone-600">
+        Utiliza al menos 8 caracteres.
+        La contraseña no debe superar 72 bytes UTF-8.
+      </p>
+
+      @if (
+        form.controls.contrasena.touched &&
+        form.controls.contrasena.hasError('required')
+      ) {
+        <p class="mt-2 text-sm text-red-600">
+          Ingresa una contraseña.
+        </p>
+      }
+
+      @if (
+        form.controls.contrasena.touched &&
+        form.controls.contrasena.hasError('minlength')
+      ) {
+        <p class="mt-2 text-sm text-red-600">
+          La contraseña debe tener al menos 8 caracteres.
+        </p>
+      }
+
+    </div>
+
+    <!-- CONFIRMAR CONTRASEÑA -->
+
+    <div>
+
+      <label for="confirmacion" class="mb-2 block">
+        Confirmar contraseña
+      </label>
+
+      <input
+        id="confirmacion"
+        name="confirmacion"
+        type="password"
+        formControlName="confirmacion"
+        class="field"
+        placeholder="Repite tu contraseña"
+        autocomplete="new-password"
+        required
+        [attr.aria-invalid]="
+          (
+            form.controls.confirmacion.invalid &&
+            form.controls.confirmacion.touched
+          ) ||
+          (
+            form.controls.confirmacion.touched &&
+            form.controls.confirmacion.value !==
+            form.controls.contrasena.value
+          )
+        "
+      />
+
+      @if (
+        form.controls.confirmacion.touched &&
+        form.controls.confirmacion.hasError('required')
+      ) {
+        <p class="mt-2 text-sm text-red-600">
+          Confirma tu contraseña.
+        </p>
+      }
+
+      @if (
+        form.controls.confirmacion.touched &&
+        form.controls.confirmacion.value &&
+        form.controls.confirmacion.value !==
+        form.controls.contrasena.value
+      ) {
+        <p class="mt-2 text-sm text-red-600">
+          Las contraseñas no coinciden.
+        </p>
+      }
+
+    </div>
+
+    <!-- ERROR DEL SERVIDOR -->
+
+    @if (error()) {
+
+      <div
+        role="alert"
+        class="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700"
+      >
+        {{ error() }}
+      </div>
+
+    }
+
+    <!-- REGISTRO EXITOSO -->
+
+    @if (mensaje()) {
+
+      <div
+        role="status"
+        aria-live="polite"
+        class="rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-800"
+      >
+        {{ mensaje() }}
+
+        <a
+          routerLink="/login"
+          class="mt-3 block font-semibold underline"
+        >
+          Iniciar sesión
+        </a>
+      </div>
+
+    }
+
+    <!-- BOTÓN DE REGISTRO -->
+
+    <button
+      type="submit"
+      class="btn w-full"
+      [disabled]="form.invalid || cargando()"
+      [attr.aria-busy]="cargando()"
+    >
+
+      @if (cargando()) {
+        Creando cuenta...
+      } @else {
+        Crear cuenta
+      }
+
+    </button>
+
+  </form>
+
+  <!-- ENLACE LOGIN -->
+
+  <p class="mt-6 text-center text-stone-600">
+
+    ¿Ya tienes una cuenta?
+
+    <a
+      routerLink="/login"
+      class="font-medium underline underline-offset-4"
+    >
+      Iniciar sesión
+    </a>
+
+  </p>
+
+</section>

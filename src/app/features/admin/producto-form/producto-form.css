@@ -1,10 +1,241 @@
-.modulo-admin {max-width: 960px; margin-inline: auto; padding-block: 1rem 3rem;}
-.etiqueta {font-size:.72rem;letter-spacing:.18em;font-weight:750;color:#8c5f47;}
-h1 {font-size:clamp(2rem,5vw,3.5rem);line-height:1.08;font-weight:750; margin:1rem 0;}
-.intro {color:#68645f; margin-bottom:2rem;}
-.panel-informativo {border:1px solid #dedbd5;background:#fff; padding:clamp(1rem,4vw,2.25rem); border-radius:6px;}
-h2 {font-weight:750;font-size:1.22rem;margin-bottom:.5rem;}
-.panel-informativo p {color:#625d56;line-height:1.6;margin-bottom:1rem;}
-.endpoint {font-family:ui-monospace,monospace;font-size:.83rem;overflow-wrap:anywhere;}
-a {display:inline-block;background:#24211d;color:#fff;padding:.78rem 1.2rem;border-radius:3px;}
-a:focus-visible {outline:3px solid #a67250;outline-offset:4px;}
+
+:host {
+  display: block;
+}
+
+.modulo-admin {
+  width: 100%;
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 1rem 0 3rem;
+  color: #191c1e;
+}
+
+.encabezado {
+  margin-bottom: 2rem;
+}
+
+.etiqueta {
+  color: #806146;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.18em;
+}
+
+h1 {
+  margin: 1rem 0;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.intro {
+  color: #625d56;
+  line-height: 1.7;
+}
+
+.panel {
+  padding: clamp(1.25rem, 4vw, 2rem);
+  border: 1px solid #e5e8e9;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.subtitulo {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.texto-ayuda {
+  margin-bottom: 1.5rem;
+  color: #625d56;
+  font-size: 0.9rem;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-bottom: 1.5rem;
+}
+
+.campo label {
+  font-size: 0.85rem;
+  font-weight: 750;
+  color: #30373a;
+}
+
+.campo input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0.75rem 0.9rem;
+
+  border: 1px solid #dfe3e5;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #191c1e;
+
+  font-size: 0.95rem;
+}
+
+.campo input:focus {
+  outline: 2px solid #997959;
+  outline-offset: 2px;
+}
+
+.error-campo {
+  color: #a33e37;
+  font-size: 0.8rem;
+}
+
+.campos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 1.5rem;
+}
+
+.boton-principal,
+.boton-secundario {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 46px;
+  padding: 0.8rem 1.3rem;
+
+  border-radius: 8px;
+
+  font-size: 0.85rem;
+  font-weight: 750;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.boton-principal {
+  border: 1px solid #191c1e;
+  background: #191c1e;
+  color: #ffffff;
+}
+
+.boton-principal:hover {
+  background: #383e42;
+}
+
+.boton-principal:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.boton-secundario {
+  border: 1px solid #dfe3e5;
+  background: #ffffff;
+  color: #30373a;
+}
+
+.boton-secundario:hover {
+  background: #f2f3f4;
+}
+
+.boton-principal:focus-visible,
+.boton-secundario:focus-visible {
+  outline: 3px solid #997959;
+  outline-offset: 3px;
+}
+
+.mensaje-error,
+.mensaje-exito {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  line-height: 1.7;
+}
+
+.mensaje-error {
+  border: 1px solid #ecc7c3;
+  background: #fff4f3;
+  color: #9a302c;
+}
+
+.mensaje-exito {
+  border: 1px solid #c9ddcd;
+  background: #f0f8f1;
+  color: #315f3b;
+}
+
+.mensaje-exito h2 {
+  margin-bottom: 0.8rem;
+}
+
+.mensaje-exito p {
+  margin-bottom: 0.4rem;
+}
+
+.tabla-contenedor {
+  width: 100%;
+  margin-top: 2rem;
+  overflow-x: auto;
+}
+
+.tabla-contenedor h3 {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 0.85rem;
+  border-bottom: 1px solid #e7e9eb;
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+th {
+  background: #f7f8f8;
+  font-weight: 800;
+}
+
+.nota {
+  margin-top: 1.5rem;
+  color: #625d56;
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+@media (max-width: 640px) {
+
+  .campos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .acciones {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .boton-principal,
+  .boton-secundario {
+    width: 100%;
+  }
+}

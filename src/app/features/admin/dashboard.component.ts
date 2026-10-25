@@ -6,6 +6,10 @@ import {
 
 import { RouterLink } from '@angular/router';
 
+// =====================================================
+// MODELOS DEL DASHBOARD
+// =====================================================
+
 interface Indicador {
   titulo: string;
   valor: string;
@@ -21,17 +25,30 @@ interface AccesoRapido {
   icono: string;
 }
 
+// =====================================================
+// COMPONENTE DASHBOARD
+// =====================================================
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink],
+  imports: [
+    RouterLink
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent {
 
-  readonly indicadores: Indicador[] = [
+  // ===================================================
+  // INDICADORES ADMINISTRATIVOS
+  //
+  // Se mostrarán como no disponibles hasta integrar
+  // los endpoints reales del backend.
+  // ===================================================
+
+  readonly indicadores: ReadonlyArray<Indicador> = [
     {
       titulo: 'Productos',
       valor: '—',
@@ -58,7 +75,11 @@ export class DashboardComponent {
     }
   ];
 
-  readonly accesos: AccesoRapido[] = [
+  // ===================================================
+  // ACCESOS RÁPIDOS
+  // ===================================================
+
+  readonly accesos: ReadonlyArray<AccesoRapido> = [
     {
       numero: '01',
       titulo: 'Productos',
