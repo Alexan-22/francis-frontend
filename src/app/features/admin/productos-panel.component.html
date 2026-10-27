@@ -1,0 +1,983 @@
+
+<!-- ==========================================
+     FRANCIS COLLECTION
+     PANEL DE PRODUCTOS + INDEXEDDB
+========================================== -->
+
+<section class="productos-page">
+
+  <!-- ======================================
+       ENCABEZADO
+  ======================================= -->
+
+  <header class="page-header">
+
+    <div>
+
+      <span class="eyebrow">
+        FRANCIS COLLECTION / ADMIN
+      </span>
+
+      <h1>Gestión de productos</h1>
+
+      <p>
+        Administra productos, fotografías,
+        precios y existencias de tu tienda.
+      </p>
+
+    </div>
+
+    <button
+      type="button"
+      class="btn-primary"
+      [disabled]="cargandoCatalogo()"
+      (click)="abrirNuevo()">
+
+      <span>＋</span>
+      Nuevo producto
+
+    </button>
+
+  </header>
+
+  <!-- ======================================
+       ALMACENAMIENTO LOCAL
+  ======================================= -->
+
+  <div class="demo-notice">
+
+    <strong>
+      Catálogo local de Francis Collection.
+    </strong>
+
+    Los productos y sus fotografías se guardan
+    en este navegador mediante IndexedDB.
+
+    Los cambios todavía no se sincronizan
+    con PostgreSQL.
+
+  </div>
+
+  <!-- ======================================
+       ESTADO DE CARGA
+  ======================================= -->
+
+  @if (cargandoCatalogo()) {
+
+    <div class="demo-notice" role="status">
+
+      Cargando productos y fotografías
+      desde el almacenamiento local...
+
+    </div>
+
+  }
+
+  <!-- ======================================
+       ESTADO DE GUARDADO
+  ======================================= -->
+
+  @if (guardandoCatalogo()) {
+
+    <div class="demo-notice" role="status">
+
+      Guardando cambios y fotografías...
+
+      No actualices la página hasta
+      que termine este proceso.
+
+    </div>
+
+  }
+
+  <!-- ======================================
+       ERROR DE ALMACENAMIENTO
+  ======================================= -->
+
+  @if (errorAlmacenamiento()) {
+
+    <div class="form-error" role="alert">
+
+      {{ errorAlmacenamiento() }}
+
+    </div>
+
+  }
+
+  <!-- ======================================
+       MENSAJES DE OPERACIONES
+  ======================================= -->
+
+  @if (aviso()) {
+
+    <div class="aviso" role="status">
+
+      <span>
+        {{ aviso() }}
+      </span>
+
+      <button
+        type="button"
+        aria-label="Cerrar mensaje"
+        (click)="cerrarAviso()">
+
+        ×
+
+      </button>
+
+    </div>
+
+  }
+
+  <!-- ======================================
+       TARJETAS DE ESTADISTICAS
+  ======================================= -->
+
+  <div class="stats-grid">
+
+    <!-- Total productos -->
+
+    <article class="stat-card">
+
+      <span class="stat-label">
+        Total productos
+      </span>
+
+      <h2>
+        {{ totalProductos() }}
+      </h2>
+
+      <small>
+        Productos registrados
+      </small>
+
+    </article>
+
+    <!-- Activos -->
+
+    <article class="stat-card">
+
+      <span class="stat-label">
+        Productos activos
+      </span>
+
+      <h2>
+        {{ totalActivos() }}
+      </h2>
+
+      <small>
+        Productos habilitados
+      </small>
+
+    </article>
+
+    <!-- Stock -->
+
+    <article class="stat-card">
+
+      <span class="stat-label">
+        Unidades de stock
+      </span>
+
+      <h2>
+        {{ totalStock() }}
+      </h2>
+
+      <small>
+        Existencias del catálogo local
+      </small>
+
+    </article>
+
+    <!-- Stock bajo -->
+
+    <article class="stat-card alert-card">
+
+      <span class="stat-label">
+        Stock bajo
+      </span>
+
+      <h2>
+        {{ totalStockBajo() }}
+      </h2>
+
+      <small>
+        Productos activos con
+        5 o menos unidades
+      </small>
+
+    </article>
+
+  </div>
+
+  <!-- ======================================
+       CATÁLOGO DE PRODUCTOS
+  ======================================= -->
+
+  <section class="table-panel">
+
+    <div class="section-header">
+
+      <div>
+
+        <h2>
+          Catálogo de productos
+        </h2>
+
+        <p>
+          {{ productosFiltrados().length }}
+          resultados encontrados
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- ====================================
+         BÚSQUEDA Y FILTROS
+    ===================================== -->
+
+    <div class="filters">
+
+      <!-- Buscar -->
+
+      <div class="search-field">
+
+        <span
+          class="search-icon"
+          aria-hidden="true">
+          ⌕
+        </span>
+
+        <input
+          type="search"
+          placeholder="Buscar producto o SKU..."
+          aria-label="Buscar productos"
+          [ngModel]="busqueda()"
+          (ngModelChange)="busqueda.set($event)"
+        />
+
+      </div>
+
+      <!-- Categoría -->
+
+      <select
+        aria-label="Filtrar por categoría"
+        [ngModel]="categoriaSeleccionada()"
+        (ngModelChange)="categoriaSeleccionada.set($event)">
+
+        <option value="Todas">
+          Todas las categorías
+        </option>
+
+        @for (
+          categoria of categorias;
+          track categoria
+        ) {
+
+          <option [value]="categoria">
+            {{ categoria }}
+          </option>
+
+        }
+
+      </select>
+
+      <!-- Estado -->
+
+      <select
+        aria-label="Filtrar por estado"
+        [ngModel]="filtroEstado()"
+        (ngModelChange)="filtroEstado.set($event)">
+
+        <option value="todos">
+          Todos los estados
+        </option>
+
+        <option value="activos">
+          Activos
+        </option>
+
+        <option value="inactivos">
+          Inactivos
+        </option>
+
+        <option value="stock-bajo">
+          Stock bajo
+        </option>
+
+      </select>
+
+      <!-- Ordenar -->
+
+      <select
+        aria-label="Ordenar productos"
+        [ngModel]="orden()"
+        (ngModelChange)="orden.set($event)">
+
+        <option value="nombre">
+          Nombre A-Z
+        </option>
+
+        <option value="recientes">
+          Más recientes
+        </option>
+
+        <option value="precio-asc">
+          Menor precio
+        </option>
+
+        <option value="precio-desc">
+          Mayor precio
+        </option>
+
+        <option value="stock">
+          Menor stock
+        </option>
+
+      </select>
+
+      <!-- Limpiar filtros -->
+
+      <button
+        type="button"
+        class="btn-secondary"
+        (click)="limpiarFiltros()">
+
+        Limpiar
+
+      </button>
+
+    </div>
+
+    <!-- ====================================
+         TABLA DE PRODUCTOS
+    ===================================== -->
+
+    <div class="table-scroll">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Producto</th>
+            <th>SKU</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Estado</th>
+            <th class="actions-heading">
+              Acciones
+            </th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          @for (
+            producto of productosFiltrados();
+            track producto.id
+          ) {
+
+            <tr>
+
+              <!-- ==========================
+                   IMAGEN DEL PRODUCTO
+              =========================== -->
+
+              <td>
+
+                <div class="producto-cell">
+
+                  <div class="product-image">
+
+                    @if (producto.imagenUrl) {
+
+                      <img
+                        [src]="producto.imagenUrl"
+                        [alt]="producto.nombre"
+                        loading="lazy"
+                      />
+
+                    } @else {
+
+                      <span>
+                        {{ iconoCategoria(producto.categoria) }}
+                      </span>
+
+                    }
+
+                  </div>
+
+                  <div class="product-info">
+
+                    <strong>
+                      {{ producto.nombre }}
+                    </strong>
+
+                    <small>
+                      Talla {{ producto.talla }}
+                    </small>
+
+                  </div>
+
+                </div>
+
+              </td>
+
+              <!-- SKU -->
+
+              <td>
+
+                <span class="sku">
+                  {{ producto.sku }}
+                </span>
+
+              </td>
+
+              <!-- Categoría -->
+
+              <td>
+                {{ producto.categoria }}
+              </td>
+
+              <!-- Precio -->
+
+              <td>
+
+                <strong>
+                  {{ moneda(producto.precio) }}
+                </strong>
+
+              </td>
+
+              <!-- Stock -->
+
+              <td>
+
+                <div class="stock-cell">
+
+                  <strong>
+                    {{ producto.stock }}
+                  </strong>
+
+                  <span
+                    class="stock-badge"
+                    [class.stock-warning]="producto.stock <= 5"
+                    [class.stock-empty]="producto.stock === 0">
+
+                    {{ estadoStock(producto) }}
+
+                  </span>
+
+                </div>
+
+              </td>
+
+              <!-- Estado -->
+
+              <td>
+
+                <button
+                  type="button"
+                  class="status-button"
+                  [class.inactive]="!producto.activo"
+                  [disabled]="cargandoCatalogo()"
+                  [attr.aria-label]="
+                    'Cambiar estado de ' + producto.nombre
+                  "
+                  (click)="cambiarActivo(producto)">
+
+                  <span class="status-dot"></span>
+
+                  {{
+                    producto.activo
+                      ? 'Activo'
+                      : 'Inactivo'
+                  }}
+
+                </button>
+
+              </td>
+
+              <!-- Acciones -->
+
+              <td>
+
+                <div class="row-actions">
+
+                  <button
+                    type="button"
+                    class="btn-edit"
+                    [disabled]="cargandoCatalogo()"
+                    [attr.aria-label]="
+                      'Editar ' + producto.nombre
+                    "
+                    (click)="editar(producto)">
+
+                    Editar
+
+                  </button>
+
+                  <button
+                    type="button"
+                    class="btn-delete"
+                    [disabled]="cargandoCatalogo()"
+                    [attr.aria-label]="
+                      'Eliminar ' + producto.nombre
+                    "
+                    (click)="eliminar(producto)">
+
+                    Eliminar
+
+                  </button>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          } @empty {
+
+            <tr>
+
+              <td colspan="7">
+
+                <div class="empty-state">
+
+                  <span>⌕</span>
+
+                  <h3>
+                    No encontramos productos
+                  </h3>
+
+                  <p>
+                    Prueba otra búsqueda
+                    o limpia los filtros.
+                  </p>
+
+                  <button
+                    type="button"
+                    class="btn-secondary"
+                    (click)="limpiarFiltros()">
+
+                    Limpiar filtros
+
+                  </button>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+  <!-- ======================================
+       MODAL DE CREAR / EDITAR PRODUCTO
+  ======================================= -->
+
+  @if (formularioAbierto()) {
+
+    <div
+      class="modal-backdrop"
+      (click)="cerrarFormulario()">
+
+      <section
+        class="modal-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="producto-modal-titulo"
+        (click)="$event.stopPropagation()">
+
+        <!-- =================================
+             ENCABEZADO
+        ================================== -->
+
+        <header class="modal-header">
+
+          <div>
+
+            <span class="eyebrow">
+              FRANCIS COLLECTION
+            </span>
+
+            <h2 id="producto-modal-titulo">
+
+              {{
+                productoEditando() === null
+                  ? 'Nuevo producto'
+                  : 'Editar producto'
+              }}
+
+            </h2>
+
+          </div>
+
+          <button
+            type="button"
+            class="close-button"
+            aria-label="Cerrar formulario"
+            (click)="cerrarFormulario()">
+
+            ×
+
+          </button>
+
+        </header>
+
+        <!-- =================================
+             FORMULARIO
+        ================================== -->
+
+        <form
+          class="product-form"
+          (ngSubmit)="guardar()">
+
+          <!-- Nombre -->
+
+          <label>
+
+            Nombre del producto
+
+            <input
+              name="nombre"
+              type="text"
+              [(ngModel)]="formulario.nombre"
+              placeholder="Ej. Vestido Elegance"
+              maxlength="120"
+              required
+            />
+
+          </label>
+
+          <!-- Datos principales -->
+
+          <div class="form-grid">
+
+            <!-- SKU -->
+
+            <label>
+
+              Código SKU
+
+              <input
+                name="sku"
+                type="text"
+                [(ngModel)]="formulario.sku"
+                placeholder="FR-007"
+                maxlength="40"
+                required
+              />
+
+            </label>
+
+            <!-- Categoría -->
+
+            <label>
+
+              Categoría
+
+              <select
+                name="categoria"
+                [(ngModel)]="formulario.categoria">
+
+                @for (
+                  categoria of categorias;
+                  track categoria
+                ) {
+
+                  <option [value]="categoria">
+                    {{ categoria }}
+                  </option>
+
+                }
+
+              </select>
+
+            </label>
+
+            <!-- Talla -->
+
+            <label>
+
+              Talla
+
+              <select
+                name="talla"
+                [(ngModel)]="formulario.talla">
+
+                <option value="XS">XS</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                <option value="Única">Única</option>
+
+              </select>
+
+            </label>
+
+            <!-- Precio -->
+
+            <label>
+
+              Precio (S/)
+
+              <input
+                name="precio"
+                type="number"
+                min="0.01"
+                step="0.01"
+                [(ngModel)]="formulario.precio"
+                required
+              />
+
+            </label>
+
+            <!-- Stock -->
+
+            <label>
+
+              Stock
+
+              <input
+                name="stock"
+                type="number"
+                min="0"
+                step="1"
+                [(ngModel)]="formulario.stock"
+                required
+              />
+
+            </label>
+
+          </div>
+
+          <!-- =================================
+               SECCIÓN DE IMAGEN
+          ================================== -->
+
+          <div class="campo-imagen">
+
+            <span class="imagen-titulo">
+              IMAGEN DEL PRODUCTO
+            </span>
+
+            <div class="imagen-editor">
+
+              <!-- Vista previa -->
+
+              <div class="imagen-preview">
+
+                @if (imagenPrevisualizacion()) {
+
+                  <img
+                    [src]="imagenPrevisualizacion()"
+                    alt="Vista previa de la fotografía seleccionada"
+                  />
+
+                } @else {
+
+                  <div class="imagen-sin-foto">
+
+                    <span
+                      class="imagen-placeholder-icon"
+                      aria-hidden="true">
+                      ▧
+                    </span>
+
+                    <span>
+                      Sin imagen
+                    </span>
+
+                  </div>
+
+                }
+
+              </div>
+
+              <!-- Botones de imagen -->
+
+              <div class="imagen-controles">
+
+                <!-- Selector de archivo -->
+
+                <input
+                  #archivoImagen
+                  type="file"
+                  accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                  (change)="seleccionarImagen($event)"
+                  hidden
+                  aria-label="Seleccionar fotografía del producto"
+                />
+
+                <!-- Seleccionar / cambiar -->
+
+                <button
+                  type="button"
+                  class="btn-subir-imagen"
+                  [disabled]="leyendoImagen()"
+                  (click)="archivoImagen.click()">
+
+                  <span
+                    class="icono-subida"
+                    aria-hidden="true">
+                    ↑
+                  </span>
+
+                  @if (leyendoImagen()) {
+
+                    Procesando imagen...
+
+                  } @else if (imagenPrevisualizacion()) {
+
+                    Cambiar imagen
+
+                  } @else {
+
+                    Seleccionar imagen
+
+                  }
+
+                </button>
+
+                <!-- Quitar imagen -->
+
+                @if (imagenPrevisualizacion()) {
+
+                  <button
+                    type="button"
+                    class="btn-quitar-imagen"
+                    (click)="quitarImagen(archivoImagen)">
+
+                    Quitar imagen
+
+                  </button>
+
+                }
+
+                <!-- Informaciones -->
+
+                <p class="imagen-ayuda">
+
+                  Formatos permitidos:
+                  JPG, PNG o WEBP.
+                  Máximo 5 MB.
+
+                </p>
+
+                <p class="imagen-ayuda-secundaria">
+
+                  La imagen seleccionada se
+                  guardará junto con el producto
+                  en este navegador.
+
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- =================================
+               PRODUCTO ACTIVO
+          ================================== -->
+
+          <label class="checkbox-field">
+
+            <input
+              name="activo"
+              type="checkbox"
+              [(ngModel)]="formulario.activo"
+            />
+
+            Producto activo
+
+          </label>
+
+          <!-- =================================
+               MENSAJES DE ERROR
+          ================================== -->
+
+          @if (mensajeError()) {
+
+            <div
+              class="form-error"
+              role="alert">
+
+              {{ mensajeError() }}
+
+            </div>
+
+          }
+
+          <!-- =================================
+               INFORMACIÓN DEL GUARDADO
+          ================================== -->
+
+          <p class="form-help">
+
+            Los datos y fotografías se guardarán
+            en el almacenamiento local del
+            navegador mediante IndexedDB.
+
+            Aún no se sincronizan con
+            PostgreSQL ni con Spring Boot.
+
+          </p>
+
+          <!-- =================================
+               BOTONES DEL FORMULARIO
+          ================================== -->
+
+          <footer class="form-actions">
+
+            <button
+              type="button"
+              class="btn-secondary"
+              (click)="cerrarFormulario()">
+
+              Cancelar
+
+            </button>
+
+            <button
+              type="submit"
+              class="btn-primary"
+              [disabled]="
+                leyendoImagen() ||
+                cargandoCatalogo()
+              ">
+
+              {{
+                productoEditando() === null
+                  ? 'Agregar producto'
+                  : 'Guardar cambios'
+              }}
+
+            </button>
+
+          </footer>
+
+        </form>
+
+      </section>
+
+    </div>
+
+  }
+
+</section>

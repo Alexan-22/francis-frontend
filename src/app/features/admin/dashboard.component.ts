@@ -1,126 +1,94 @@
-
-import {
-  Component,
-  ChangeDetectionStrategy
-} from '@angular/core';
-
+import { Component, computed, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
-// =====================================================
-// MODELOS DEL DASHBOARD
-// =====================================================
+type Periodo = 'semana' | 'mes' | 'trimestre';
 
-interface Indicador {
-  titulo: string;
-  valor: string;
-  descripcion: string;
-  icono: string;
+interface BarraVenta {
+  etiqueta: string;
+  porcentaje: number;
 }
 
-interface AccesoRapido {
-  numero: string;
-  titulo: string;
-  descripcion: string;
-  ruta: string;
-  icono: string;
+interface ResumenDashboard {
+  ventas: number;
+  pedidos: number;
+  productos: number;
+  stockBajo: number;
+  barras: BarraVenta[];
 }
-
-// =====================================================
-// COMPONENTE DASHBOARD
-// =====================================================
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [
-    RouterLink
-  ],
+  imports: [CommonModule, RouterLink],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
 
-  // ===================================================
-  // INDICADORES ADMINISTRATIVOS
-  //
-  // Se mostrarán como no disponibles hasta integrar
-  // los endpoints reales del backend.
-  // ===================================================
+  // Datos de demostración.
+  // Posteriormente se conectarán al backend.
+  readonly periodo = signal<Periodo>('semana');
 
-  readonly indicadores: ReadonlyArray<Indicador> = [
-    {
-      titulo: 'Productos',
-      valor: '—',
-      descripcion: 'Total del catálogo',
-      icono: 'box'
+  readonly datos: Record<Periodo, ResumenDashboard> = {
+    semana: {
+      ventas: 12850,
+      pedidos: 128,
+      productos: 64,
+      stockBajo: 7,
+      barras: [
+        { etiqueta: 'Lun', porcentaje: 45 },
+        { etiqueta: 'Mar', porcentaje: 65 },
+        { etiqueta: 'Mié', porcentaje: 50 },
+        { etiqueta: 'Jue', porcentaje: 80 },
+        { etiqueta: 'Vie', porcentaje: 70 },
+        { etiqueta: 'Sáb', porcentaje: 95 },
+        { etiqueta: 'Dom', porcentaje: 60 }
+      ]
     },
-    {
-      titulo: 'Ventas',
-      valor: '—',
-      descripcion: 'Ventas registradas',
-      icono: 'receipt'
+    mes: {
+      ventas: 48900,
+      pedidos: 420,
+      productos: 64,
+      stockBajo: 7,
+      barras: [
+        { etiqueta: 'S1', porcentaje: 40 },
+        { etiqueta: 'S2', porcentaje: 65 },
+        { etiqueta: 'S3', porcentaje: 80 },
+        { etiqueta: 'S4', porcentaje: 100 }
+      ]
     },
-    {
-      titulo: 'Usuarios',
-      valor: '—',
-      descripcion: 'Clientes registrados',
-      icono: 'users'
-    },
-    {
-      titulo: 'Stock',
-      valor: '—',
-      descripcion: 'Unidades disponibles',
-      icono: 'layers'
+    trimestre: {
+      ventas: 139800,
+      pedidos: 1250,
+      productos: 64,
+      stockBajo: 7,
+      barras: [
+        { etiqueta: 'Mes 1', porcentaje: 55 },
+        { etiqueta: 'Mes 2', porcentaje: 75 },
+        { etiqueta: 'Mes 3', porcentaje: 95 }
+      ]
     }
+  };
+
+  readonly resumen = computed(
+    () => this.datos[this.periodo()]
+  );
+
+  readonly productosBajoStock = [
+    { nombre: 'Blusa Elegance', stock: 2 },
+    { nombre: 'Vestido Casual', stock: 3 },
+    { nombre: 'Pantalón Classic', stock: 4 }
   ];
 
-  // ===================================================
-  // ACCESOS RÁPIDOS
-  // ===================================================
+  cambiarPeriodo(periodo: Periodo): void {
+    this.periodo.set(periodo);
+  }
 
-  readonly accesos: ReadonlyArray<AccesoRapido> = [
-    {
-      numero: '01',
-      titulo: 'Productos',
-      descripcion: 'Administrar catálogo',
-      ruta: '/admin/productos',
-      icono: 'box'
-    },
-    {
-      numero: '02',
-      titulo: 'Inventario',
-      descripcion: 'Consultar stock y tallas',
-      ruta: '/admin/stock',
-      icono: 'layers'
-    },
-    {
-      numero: '03',
-      titulo: 'Punto de venta',
-      descripcion: 'Registrar ventas presenciales',
-      ruta: '/admin/vender',
-      icono: 'shopping'
-    },
-    {
-      numero: '04',
-      titulo: 'Ventas',
-      descripcion: 'Revisar pedidos',
-      ruta: '/admin/ventas',
-      icono: 'receipt'
-    },
-    {
-      numero: '05',
-      titulo: 'Contenido',
-      descripcion: 'Banners y colecciones',
-      ruta: '/admin/home-admin',
-      icono: 'home'
-    },
-    {
-      numero: '06',
-      titulo: 'Reportes',
-      descripcion: 'Consultar indicadores',
-      ruta: '/admin/reportes',
-      icono: 'chart'
-    }
-  ];
+  moneda(valor: number): string {
+    return new Intl.NumberFormat('es-PE', {
+      style: 'currency',
+      currency: 'PEN'
+    }).format(valor);
+  }
 }

@@ -45,14 +45,13 @@ export const routes: Routes = [
       },
 
       // Administración de productos
-      {
-        path: 'productos',
-        title: 'Productos | Francis Collection',
-
-        loadComponent: () =>
-          import('./features/admin/productos/productos')
-            .then(m => m.ProductosComponent)
-      },
+     {
+  path: 'productos',
+  loadComponent: () =>
+    import('./features/admin/productos-panel.component')
+      .then(m => m.ProductosPanelComponent),
+  title: 'Productos | Francis Collection'
+},
 
       // Inventario y stock
       {
@@ -257,6 +256,10 @@ export const routes: Routes = [
           import('./features/home/not-found.component')
             .then(m => m.NotFoundComponent)
       }
+
+    
+
+
 
     ]
   }

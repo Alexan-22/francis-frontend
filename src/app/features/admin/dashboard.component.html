@@ -1,243 +1,204 @@
+<section class="dashboard">
 
-<section
-  class="fc-dashboard"
-  aria-labelledby="dashboard-title">
-
-  <!-- ENCABEZADO -->
-  <div class="fc-dashboard-heading">
-
+  <header class="dashboard-header">
     <div>
-
-      <p class="fc-eyebrow">
-        PANEL ADMINISTRATIVO
-      </p>
-
-      <h1 id="dashboard-title">
-        Dashboard<span>.</span>
-      </h1>
-
-      <p class="fc-dashboard-description">
-        Gestiona tu tienda Francis Collection
-        desde un solo lugar.
-      </p>
-
-    </div>
-
-    <a
-      routerLink="/admin/vender"
-      class="fc-primary-button">
-
-      <svg class="fc-icon" aria-hidden="true">
-        <use href="#fc-plus"></use>
-      </svg>
-
-      Nueva venta
-
-    </a>
-
-  </div>
-
-  <!-- ESTADÍSTICAS -->
-  <div class="fc-dashboard-section-heading">
-
-    <div>
-      <span class="fc-section-caption">
-        VISTA GENERAL
+      <span class="eyebrow">
+        FRANCIS COLLECTION
       </span>
-      <h2>Resumen de la tienda</h2>
-    </div>
 
-    <span class="fc-data-state">
-      Datos pendientes de conexión
-    </span>
-
-  </div>
-
-  <div class="fc-stats-grid">
-
-    @for (indicador of indicadores; track indicador.titulo) {
-
-      <article class="fc-stat-card">
-
-        <div class="fc-stat-top">
-
-          <span class="fc-stat-label">
-            {{ indicador.titulo }}
-          </span>
-
-          <div class="fc-stat-icon">
-            <svg class="fc-icon" aria-hidden="true">
-              <use
-                [attr.href]="'#fc-' + indicador.icono">
-              </use>
-            </svg>
-          </div>
-
-        </div>
-
-        <strong class="fc-stat-value">
-          {{ indicador.valor }}
-        </strong>
-
-        <div class="fc-stat-bottom">
-
-          <span>{{ indicador.descripcion }}</span>
-
-          <span class="fc-stat-status">
-            Sin datos
-          </span>
-
-        </div>
-
-      </article>
-
-    }
-
-  </div>
-
-  <!-- ÁREA DE TRABAJO -->
-  <div class="fc-workspace">
-
-    <!-- ACCESOS RÁPIDOS -->
-    <section
-      class="fc-workspace-panel"
-      aria-labelledby="accesos-title">
-
-      <div class="fc-panel-heading">
-
-        <div>
-          <p class="fc-section-caption">
-            ESPACIO DE TRABAJO
-          </p>
-
-          <h2 id="accesos-title">
-            Accesos rápidos
-          </h2>
-        </div>
-
-      </div>
-
-      <div class="fc-quick-grid">
-
-        @for (acceso of accesos; track acceso.ruta) {
-
-          <a
-            class="fc-quick-card"
-            [routerLink]="acceso.ruta">
-
-            <div class="fc-quick-top">
-
-              <span>
-                {{ acceso.numero }}
-              </span>
-
-              <svg
-                class="fc-icon fc-quick-icon"
-                aria-hidden="true">
-
-                <use
-                  [attr.href]="'#fc-' + acceso.icono">
-                </use>
-
-              </svg>
-
-            </div>
-
-            <div class="fc-quick-body">
-
-              <strong>
-                {{ acceso.titulo }}
-              </strong>
-
-              <p>
-                {{ acceso.descripcion }}
-              </p>
-
-            </div>
-
-            <span class="fc-quick-arrow" aria-hidden="true">
-              ↗
-            </span>
-
-          </a>
-
-        }
-
-      </div>
-
-    </section>
-
-    <!-- ACTIVIDAD RECIENTE -->
-    <aside class="fc-activity-panel">
-
-      <div class="fc-panel-heading">
-
-        <div>
-          <p class="fc-section-caption">
-            MOVIMIENTO
-          </p>
-
-          <h2>Actividad reciente</h2>
-        </div>
-
-      </div>
-
-      <div class="fc-activity-empty">
-
-        <div class="fc-activity-icon">
-
-          <svg class="fc-icon" aria-hidden="true">
-            <use href="#fc-receipt"></use>
-          </svg>
-
-        </div>
-
-        <strong>
-          Actividad no disponible
-        </strong>
-
-        <p>
-          Las ventas y movimientos recientes
-          aparecerán aquí cuando se conecte
-          el servicio correspondiente del backend.
-        </p>
-
-      </div>
-
-      <a
-        routerLink="/admin/ventas"
-        class="fc-activity-link">
-
-        Ir a ventas
-
-        <svg class="fc-icon" aria-hidden="true">
-          <use href="#fc-arrow"></use>
-        </svg>
-
-      </a>
-
-    </aside>
-
-  </div>
-
-  <!-- INFORMACIÓN DE INTEGRACIÓN -->
-  <div class="fc-dashboard-notice" role="note">
-
-    <div class="fc-notice-mark">
-      i
-    </div>
-
-    <div>
-      <strong>Integración con microservicios</strong>
+      <h1>Panel de administración</h1>
 
       <p>
-        El diseño administrativo está preparado.
-        Las estadísticas se mostrarán después de
-        verificar los endpoints, permisos y respuestas
-        reales del API Gateway.
+        Bienvenido al centro de control de tu tienda.
       </p>
     </div>
 
+    <a routerLink="/admin/vender"
+       class="btn-primary">
+      + Nueva venta
+    </a>
+  </header>
+
+  <div class="demo-notice">
+    Vista de demostración: los indicadores
+    muestran datos simulados.
   </div>
+
+  <div class="filters">
+    <button
+      type="button"
+      [class.active]="periodo() === 'semana'"
+      (click)="cambiarPeriodo('semana')">
+      Semana
+    </button>
+
+    <button
+      type="button"
+      [class.active]="periodo() === 'mes'"
+      (click)="cambiarPeriodo('mes')">
+      Mes
+    </button>
+
+    <button
+      type="button"
+      [class.active]="periodo() === 'trimestre'"
+      (click)="cambiarPeriodo('trimestre')">
+      Trimestre
+    </button>
+  </div>
+
+  <div class="stats-grid">
+
+    <article class="stat-card">
+      <div class="stat-top">
+        <span>Ventas</span>
+        <span class="stat-icon">S/</span>
+      </div>
+
+      <h2>{{ moneda(resumen().ventas) }}</h2>
+
+      <p>Ingresos del período seleccionado</p>
+    </article>
+
+    <article class="stat-card">
+      <div class="stat-top">
+        <span>Pedidos</span>
+        <span class="stat-icon">🛍</span>
+      </div>
+
+      <h2>{{ resumen().pedidos }}</h2>
+
+      <p>Pedidos registrados</p>
+    </article>
+
+    <article class="stat-card">
+      <div class="stat-top">
+        <span>Productos</span>
+        <span class="stat-icon">▣</span>
+      </div>
+
+      <h2>{{ resumen().productos }}</h2>
+
+      <p>Productos en el catálogo</p>
+    </article>
+
+    <article class="stat-card warning">
+      <div class="stat-top">
+        <span>Stock bajo</span>
+        <span class="stat-icon">!</span>
+      </div>
+
+      <h2>{{ resumen().stockBajo }}</h2>
+
+      <p>Productos que requieren atención</p>
+    </article>
+
+  </div>
+
+  <div class="content-grid">
+
+    <article class="panel ventas-panel">
+
+      <div class="panel-header">
+        <div>
+          <h3>Rendimiento de ventas</h3>
+          <p>Actividad del período seleccionado</p>
+        </div>
+      </div>
+
+      <div class="chart">
+        <div
+          class="chart-column"
+          *ngFor="let item of resumen().barras">
+
+          <div class="bar-track">
+            <div
+              class="bar"
+              [style.height.%]="item.porcentaje"
+              [title]="item.etiqueta + ': ' +
+                       item.porcentaje + '%'">
+            </div>
+          </div>
+
+          <span>{{ item.etiqueta }}</span>
+        </div>
+      </div>
+
+    </article>
+
+    <article class="panel">
+
+      <div class="panel-header">
+        <div>
+          <h3>Alertas de inventario</h3>
+          <p>Productos que necesitan reposición</p>
+        </div>
+      </div>
+
+      <div class="stock-list">
+
+        <div
+          class="stock-item"
+          *ngFor="let producto of productosBajoStock">
+
+          <div>
+            <strong>{{ producto.nombre }}</strong>
+            <small>Stock disponible</small>
+          </div>
+
+          <span class="stock-count">
+            {{ producto.stock }}
+          </span>
+
+        </div>
+
+      </div>
+
+      <a routerLink="/admin/stock"
+         class="panel-link">
+        Ver inventario
+      </a>
+
+    </article>
+
+  </div>
+
+  <section class="quick-actions">
+
+    <h3>Accesos rápidos</h3>
+
+    <div class="actions-grid">
+
+      <a routerLink="/admin/vender"
+         class="action-card">
+        <span class="action-icon">🛒</span>
+        <strong>Punto de venta</strong>
+        <small>Registrar venta presencial</small>
+      </a>
+
+      <a routerLink="/admin/productos"
+         class="action-card">
+        <span class="action-icon">▣</span>
+        <strong>Productos</strong>
+        <small>Administrar catálogo</small>
+      </a>
+
+      <a routerLink="/admin/stock"
+         class="action-card">
+        <span class="action-icon">📦</span>
+        <strong>Inventario</strong>
+        <small>Controlar existencias</small>
+      </a>
+
+      <a routerLink="/admin/ventas"
+         class="action-card">
+        <span class="action-icon">▤</span>
+        <strong>Ventas</strong>
+        <small>Consultar pedidos</small>
+      </a>
+
+    </div>
+
+  </section>
 
 </section>

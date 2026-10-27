@@ -1,127 +1,458 @@
 
-<!-- =====================================================
-     FRANCIS COLLECTION
-     ADMINISTRACIÓN DE INVENTARIO Y STOCK
-===================================================== -->
-
 <section
-  class="modulo-admin"
-  aria-labelledby="titulo-modulo"
->
+  class="inventario-page"
+  aria-labelledby="inventario-titulo">
 
   <!-- ENCABEZADO -->
 
-  <header class="modulo-encabezado">
+  <header class="inventario-header">
 
-    <p class="etiqueta">
-      FRANCIS COLLECTION / INVENTARIO
-    </p>
+    <div>
 
-    <h1 id="titulo-modulo">
-      Inventario y stock
-    </h1>
+      <p class="etiqueta">
+        FRANCIS COLLECTION / INVENTARIO
+      </p>
 
-    <p class="intro">
-      Consulta las existencias de productos y tallas,
-      y administra los movimientos de inventario.
-    </p>
+      <h1 id="inventario-titulo">
+        Stock y tallas<span>.</span>
+      </h1>
+
+      <p class="intro">
+        Consulta la disponibilidad real de los
+        productos y sus variantes por talla.
+      </p>
+
+    </div>
+
+    <div class="acciones-header">
+
+      <a
+        routerLink="/admin/producto-form"
+        class="boton-principal">
+        + Nuevo producto
+      </a>
+
+      <button
+        type="button"
+        class="boton-secundario"
+        [disabled]="cargando()"
+        (click)="actualizar()">
+        ↻ Actualizar
+      </button>
+
+    </div>
 
   </header>
 
-  <!-- PANEL DE INTEGRACIÓN -->
+  <!-- INDICADORES -->
+
+  <div class="inventario-resumen">
+
+    <article class="indicador">
+
+      <p class="indicador-etiqueta">
+        PRODUCTOS EN CATÁLOGO
+      </p>
+
+      <strong class="indicador-valor">
+        {{ resumen().productos }}
+      </strong>
+
+      <span class="indicador-descripcion">
+        Productos publicados
+      </span>
+
+    </article>
+
+    <article class="indicador">
+
+      <p class="indicador-etiqueta">
+        VARIANTES REGISTRADAS
+      </p>
+
+      <strong class="indicador-valor">
+        {{ resumen().variantes }}
+      </strong>
+
+      <span class="indicador-descripcion">
+        Tallas identificadas
+      </span>
+
+    </article>
+
+    <article class="indicador">
+
+      <p class="indicador-etiqueta">
+        STOCK DISPONIBLE
+      </p>
+
+      <strong class="indicador-valor">
+        {{ resumen().totalDisponible }}
+      </strong>
+
+      <span class="indicador-descripcion">
+        Unidades de variantes informadas
+      </span>
+
+    </article>
+
+    <article class="indicador">
+
+      <p class="indicador-etiqueta">
+        ALERTAS DE STOCK
+      </p>
+
+      <strong class="indicador-valor">
+        {{ resumen().variantesBajas + resumen().variantesAgotadas }}
+      </strong>
+
+      <span class="indicador-descripcion">
+        {{ resumen().variantesBajas }} bajas ·
+        {{ resumen().variantesAgotadas }} agotadas
+      </span>
+
+    </article>
+
+  </div>
+
+  <!-- PANEL DE INVENTARIO -->
 
   <section
-    class="panel-informativo"
-    aria-labelledby="integracion-titulo"
-  >
+    class="inventario-panel"
+    aria-labelledby="listado-inventario">
 
-    <div class="panel-icono" aria-hidden="true">
-      !
-    </div>
+    <div class="panel-encabezado">
 
-    <h2 id="integracion-titulo">
-      Integración de inventario pendiente
-    </h2>
+      <div>
 
-    <p>
-      La pantalla administrativa está preparada,
-      pero todavía debemos verificar los endpoints,
-      DTO y permisos necesarios para consultar
-      y administrar las existencias reales.
-    </p>
+        <h2 id="listado-inventario">
+          Disponibilidad por talla
+        </h2>
 
-    <p>
-      El catálogo de productos puede proporcionar
-      información de tallas y disponibilidad,
-      pero no sustituye una consulta completa
-      del inventario administrativo.
-    </p>
+        <p>
+          Información consultada desde Comercio Service.
+        </p>
 
-    <!-- FUNCIONALIDADES -->
+      </div>
 
-    <h3>
-      Funcionalidades por integrar
-    </h3>
-
-    <ul class="lista-funciones">
-
-      <li>
-        Consultar productos y variantes por talla.
-      </li>
-
-      <li>
-        Mostrar stock físico, reservado y disponible,
-        cuando el backend proporcione esos datos.
-      </li>
-
-      <li>
-        Registrar reposiciones y ajustes de inventario.
-      </li>
-
-      <li>
-        Consultar movimientos con fecha,
-        motivo y responsable.
-      </li>
-
-      <li>
-        Identificar productos con existencias bajas.
-      </li>
-
-    </ul>
-
-    <!-- INFORMACIÓN DE ENDPOINTS -->
-
-    <p class="endpoint">
-      Endpoint de catálogo conocido: GET /api/productos.
-      Endpoints administrativos de inventario:
-      pendientes de verificar.
-    </p>
-
-    <p class="advertencia">
-      Esta pantalla todavía no modifica existencias
-      ni registra movimientos de inventario.
-    </p>
-
-    <!-- NAVEGACIÓN -->
-
-    <div class="acciones">
-
-      <a
-        routerLink="/admin/productos"
-        class="boton-principal"
-      >
-        Consultar productos
-      </a>
-
-      <a
-        routerLink="/admin"
-        class="boton-secundario"
-      >
-        Volver al dashboard
-      </a>
+      <span class="panel-contador">
+        {{ filasFiltradas().length }} registros mostrados
+      </span>
 
     </div>
+
+    <!-- BUSCADOR -->
+
+    <div class="inventario-toolbar">
+
+      <div class="campo-busqueda">
+
+        <label for="buscar-stock">
+          Buscar producto o talla
+        </label>
+
+        <input
+          id="buscar-stock"
+          type="search"
+          autocomplete="off"
+          placeholder="Nombre, talla o identificador..."
+          [formControl]="busqueda">
+
+      </div>
+
+      <div class="leyenda">
+
+        <span>
+          <i class="punto disponible"></i>
+          Disponible
+        </span>
+
+        <span>
+          <i class="punto bajo"></i>
+          Bajo
+        </span>
+
+        <span>
+          <i class="punto agotado"></i>
+          Agotado
+        </span>
+
+      </div>
+
+    </div>
+
+    <!-- ESTADO: CARGANDO -->
+
+    @if (cargando()) {
+
+      <div class="inventario-mensaje" role="status">
+
+        <div class="cargando-icono"></div>
+
+        <h3>Consultando inventario...</h3>
+
+        <p>
+          Obteniendo productos y tallas disponibles.
+        </p>
+
+      </div>
+
+    } @else if (error()) {
+
+      <!-- ESTADO: ERROR -->
+
+      <div
+        class="inventario-mensaje inventario-error"
+        role="alert">
+
+        <h3>No se pudo consultar el inventario</h3>
+
+        <p>{{ error() }}</p>
+
+        <button
+          type="button"
+          class="boton-principal"
+          (click)="actualizar()">
+          Reintentar
+        </button>
+
+      </div>
+
+    } @else if (filasFiltradas().length === 0) {
+
+      <!-- ESTADO: SIN REGISTROS -->
+
+      <div
+        class="inventario-mensaje"
+        role="status">
+
+        <div class="mensaje-icono">
+          ◇
+        </div>
+
+        <h3>No se encontraron registros</h3>
+
+        <p>
+          No hay productos o tallas que coincidan
+          con la búsqueda.
+        </p>
+
+        <button
+          type="button"
+          class="boton-secundario"
+          (click)="limpiarBusqueda()">
+          Limpiar búsqueda
+        </button>
+
+      </div>
+
+    } @else {
+
+      <!-- TABLA -->
+
+      <div class="tabla-contenedor">
+
+        <table class="inventario-tabla">
+
+          <thead>
+
+            <tr>
+
+              <th scope="col">
+                Producto
+              </th>
+
+              <th scope="col">
+                ID variante
+              </th>
+
+              <th scope="col">
+                Talla
+              </th>
+
+              <th scope="col">
+                Stock disponible
+              </th>
+
+              <th scope="col">
+                Estado
+              </th>
+
+              <th scope="col">
+                Acciones
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            @for (
+              fila of filasFiltradas();
+              track fila.clave
+            ) {
+
+              <tr>
+
+                <!-- PRODUCTO -->
+
+                <td>
+
+                  <div class="producto-celda">
+
+                    <span
+                      class="producto-avatar"
+                      aria-hidden="true">
+                      F.
+                    </span>
+
+                    <div class="producto-info">
+
+                      <strong>
+                        {{ fila.productoNombre }}
+                      </strong>
+
+                      <small>
+                        Producto ID: {{ fila.productoId }}
+                      </small>
+
+                    </div>
+
+                  </div>
+
+                </td>
+
+                <!-- ID VARIANTE -->
+
+                <td>
+
+                  @if (fila.varianteId !== null) {
+
+                    <span class="codigo-variante">
+                      #{{ fila.varianteId }}
+                    </span>
+
+                  } @else {
+
+                    <span class="texto-muted">
+                      —
+                    </span>
+
+                  }
+
+                </td>
+
+                <!-- TALLA -->
+
+                <td>
+
+                  @if (fila.varianteId !== null) {
+
+                    <span class="talla-badge">
+                      {{ fila.talla }}
+                    </span>
+
+                  } @else {
+
+                    <span class="texto-muted">
+                      {{ fila.talla }}
+                    </span>
+
+                  }
+
+                </td>
+
+                <!-- DISPONIBILIDAD -->
+
+                <td>
+
+                  @if (fila.disponible !== null) {
+
+                    <strong class="cantidad-stock">
+                      {{ fila.disponible }}
+                      <small>unidades</small>
+                    </strong>
+
+                  } @else {
+
+                    <span class="texto-muted">
+                      Por consultar
+                    </span>
+
+                  }
+
+                </td>
+
+                <!-- ESTADO -->
+
+                <td>
+
+                  <span
+                    class="estado-badge"
+                    [class.estado-disponible]="estadoStock(fila.disponible) === 'disponible'"
+                    [class.estado-bajo]="estadoStock(fila.disponible) === 'bajo'"
+                    [class.estado-agotado]="estadoStock(fila.disponible) === 'agotado'">
+
+                    {{ etiquetaStock(fila.disponible) }}
+
+                  </span>
+
+                </td>
+
+                <!-- ACCIONES -->
+
+                <td>
+
+                  <a
+                    class="enlace-producto"
+                    [routerLink]="[
+                      '/producto',
+                      fila.productoId
+                    ]">
+
+                    Ver ficha ↗
+
+                  </a>
+
+                </td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    }
 
   </section>
 
+  <!-- INFORMACIÓN -->
+
+  <aside class="inventario-nota">
+
+    <strong>Información del inventario</strong>
+
+    <p>
+      Las cantidades mostradas representan el stock
+      disponible informado por Comercio Service,
+      después de descontar las unidades reservadas.
+      Las alertas consideran stock bajo de 1 a 5
+      unidades y stock agotado de 0 unidades.
+    </p>
+
+    <p>
+      Esta vista es de consulta. Para mostrar stock
+      físico, unidades reservadas, reposiciones y
+      movimientos auditados será necesario integrar
+      endpoints administrativos adicionales.
+    </p>
+
+  </aside>
+
 </section>
+

@@ -52,29 +52,11 @@ import {
 })
 export class ProductosComponent {
 
-  // =====================================================
-  // SERVICIOS
-  // =====================================================
-
   private readonly api = inject(ApiService);
 
-  // =====================================================
-  // EVENTOS
-  // =====================================================
-
-  private readonly actualizar$ = new Subject<void>();
-
-  // =====================================================
-  // FORMULARIO DE BÚSQUEDA
-  // =====================================================
-
-  readonly busqueda = new FormControl('', {
-    nonNullable: true
-  });
-
-  // =====================================================
-  // ESTADO DEL COMPONENTE
-  // =====================================================
+  // ===================================================
+  // ESTADO
+  // ===================================================
 
   readonly productos = signal<Producto[]>([]);
 
@@ -82,9 +64,11 @@ export class ProductosComponent {
 
   readonly error = signal('');
 
-  // =====================================================
-  // FORMATO DE MONEDA
-  // =====================================================
+  readonly busqueda = new FormControl('', {
+    nonNullable: true
+  });
+
+  private readonly actualizar$ = new Subject<void>();
 
   private readonly moneda = new Intl.NumberFormat(
     'es-PE',
@@ -94,109 +78,91 @@ export class ProductosComponent {
     }
   );
 
-  // =====================================================
-  // INICIALIZACIÓN
-  // =====================================================
+  // ===================================================
+  // CONSULTAR PRODUCTOS
+  // ===================================================
 
   constructor() {
 
     merge(
 
-      // Búsqueda escrita por el administrador.
       this.busqueda.valueChanges.pipe(
         debounceTime(300)
       ),
 
-      // Actualización manual sin esperar el debounce.
       this.actualizar$.pipe(
         map(() => this.busqueda.value)
       )
 
-    )
-      .pipe(
+    ).pipe(
 
-        // Consultar al abrir el componente.
-        startWith(this.busqueda.value),
+      startWith(this.busqueda.value),
 
-        // Eliminar espacios al comienzo y al final.
-        map(texto => texto.trim()),
+      map(texto => texto.trim()),
 
-        // Iniciar estado de carga.
-        tap(() => {
+      tap(() => {
+        this.cargando.set(true);
+        this.error.set('');
+      }),
 
-          this.cargando.set(true);
+      switchMap(texto =>
 
-          this.error.set('');
+        this.api.productos(texto).pipe(
 
-        }),
+          catchError((err: unknown) => {
 
-        // Cancelar la consulta anterior y ejecutar
-        // la búsqueda más reciente.
-        switchMap(texto =>
+            this.error.set(
+              this.api.error(err)
+            );
 
-          this.api.productos(texto, 0).pipe(
+            return of([] as Producto[]);
+          })
 
-            catchError((err: unknown) => {
+        )
 
-              this.error.set(
-                this.api.error(err)
-              );
+      ),
 
-              return of([] as Producto[]);
+      takeUntilDestroyed()
 
-            })
+    ).subscribe(lista => {
 
-          )
+      this.productos.set(lista);
 
-        ),
+      this.cargando.set(false);
 
-        // Cancelar al destruir el componente.
-        takeUntilDestroyed()
-
-      )
-      .subscribe((lista: Producto[]) => {
-
-        this.productos.set(lista);
-
-        this.cargando.set(false);
-
-      });
-
+    });
   }
 
-  // =====================================================
-  // ACTUALIZAR PRODUCTOS
-  // =====================================================
+  // ===================================================
+  // ACTUALIZAR
+  // ===================================================
 
   actualizar(): void {
 
-    this.actualizar$.next();
-
-  }
-
-  // =====================================================
-  // LIMPIAR BÚSQUEDA
-  // =====================================================
-
-  limpiarBusqueda(): void {
-
-    // Si el campo ya está vacío, actualizar directamente.
-    if (this.busqueda.value === '') {
-
-      this.actualizar();
-
+    if (this.cargando()) {
       return;
     }
 
-    // setValue ya activa valueChanges.
-    // No es necesario llamar también a actualizar().
-    this.busqueda.setValue('');
-
+    this.actualizar$.next();
   }
 
-  // =====================================================
-  // FORMATEAR PRECIO EN SOLES
-  // =====================================================
+  // ===================================================
+  // LIMPIAR BUSCADOR
+  // ===================================================
+
+  limpiarBusqueda(): void {
+
+    if (this.busqueda.value === '') {
+      this.actualizar();
+      return;
+    }
+
+    this.busqueda.setValue('');
+  }
+
+  // ===================================================
+  // PRECIO
+  // ===================================================
 
   formatearPrecio(precio: number): string {
 
@@ -205,35 +171,33 @@ export class ProductosComponent {
     }
 
     return this.moneda.format(precio);
-
   }
 
-  // =====================================================
-  // CALCULAR STOCK CONOCIDO
-  // =====================================================
+  // ===================================================
+  // STOCK
+  // ===================================================
 
   obtenerStock(producto: Producto): number | null {
 
-    // Sin datos de tallas no podemos calcular existencias.
+    // El endpoint actual no proporciona las tallas.
     if (!Array.isArray(producto.tallas)) {
       return null;
     }
 
     let total = 0;
 
-    for (const talla of producto.tallas) {
+    for (const variante of producto.tallas) {
 
-      const disponible = talla.stockDisponible;
+      const stock = variante.stockDisponible;
 
-      // No mostrar totales basados en valores inválidos.
       if (
-        !Number.isSafeInteger(disponible) ||
-        disponible < 0
+        !Number.isSafeInteger(stock) ||
+        stock < 0
       ) {
         return null;
       }
 
-      total += disponible;
+      total += stock;
 
       if (!Number.isSafeInteger(total)) {
         return null;
@@ -243,9 +207,9 @@ export class ProductosComponent {
     return total;
   }
 
-  // =====================================================
-  // OBTENER ESTADO DEL PRODUCTO
-  // =====================================================
+  // ===================================================
+  // ESTADO
+  // ===================================================
 
   obtenerEstado(producto: Producto): string {
 
